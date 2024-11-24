@@ -1,9 +1,9 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-300">
             {{ __('Accueil') }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
     <div class="container px-4 mx-auto mt-6">
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             @foreach ($posts as $post)
