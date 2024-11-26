@@ -63,8 +63,7 @@
                 <div class="p-2 mt-2 ml-4 space-y-1 bg-gray-800 rounded-lg">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <img src="{{ $reply->user->avatar ?? asset('images/default-avatar.png') }}"
-                                class="object-cover w-5 h-5 rounded-full">
+                            <x-avatar :user="$comment->user" size="xs" border="xs" />
                             <div>
                                 <span class="text-xs font-semibold text-white">{{ $reply->user->name }}</span>
                                 <span

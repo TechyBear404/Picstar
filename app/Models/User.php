@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'userId');
     }
 
     public function messages()
@@ -58,7 +58,7 @@ class User extends Authenticatable
 
     public function followers()
     {
-        return $this->hasMany(Follow::class, 'followedId');
+        return $this->hasMany(Follow::class, 'followingId');
     }
 
     public function following()

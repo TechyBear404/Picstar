@@ -165,19 +165,25 @@ class PostsController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    public function userPosts(User $user)
+    public function userPosts($user)
     {
-        $posts = $user->posts()->latest()->paginate(10);
-        return view('users.posts', compact('posts', 'user'));
+        // need to find users where name is like $user
+        $users = User::where('name', 'like', '%' . $user . '%')->get();
+        $posts = Post::whereIn('userId', $users->pluck('id'))->get();
+        // $posts = Post::where('userId', $user->id)->latest()->get();
+        return view('posts.index', compact('posts'));
     }
 
-    public function postsByTag(Tag $tag)
+    public function postsByTag($tag)
     {
+        $tag = Tag::where('name', strtolower($tag))->firstOrFail();
 
         $posts = Post::whereHas('tags', function ($query) use ($tag) {
             $query->where('tagId', $tag->id);
-        })->latest()->paginate(10);
-        dump($posts);
-        return view('tags.posts', compact('posts', 'tag'));
+        })
+            ->latest()
+            ->get();
+
+        return view('posts.index', compact('posts'));
     }
 }

@@ -1,4 +1,9 @@
-<nav x-data="{ open: false }" class="flex flex-col h-full bg-gray-800 border-r border-gray-700">
+<nav x-data="{
+    open: false,
+    initSearchState() {
+        return localStorage.getItem('searchVisible') === 'true'
+    }
+}" class="flex flex-col h-full bg-gray-800 border-r border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="flex flex-col flex-1 h-full px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col flex-1 ">
@@ -21,10 +26,23 @@
                         <x-fas-images class="w-5 h-5 mr-3" />
                         <span>{{ __('Mes publications') }}</span>
                     </x-nav-link>
-                    <x-nav-link href="#" :active="request()->routeIs('search')">
+
+                    <x-nav-link :href="route('profile.followers')" :active="request()->routeIs('profile.followers')">
+                        <x-fas-users class="w-5 h-5 mr-3" />
+                        <span>{{ __('Abonnés') }}</span>
+                    </x-nav-link>
+                    <x-nav-link :href="route('profile.following')" :active="request()->routeIs('profile.following')">
+                        <x-fas-user-friends class="w-5 h-5 mr-3" />
+                        <span>{{ __('Abonnements') }}</span>
+                    </x-nav-link>
+
+                    <!-- Replace search link with button -->
+                    <x-nav-link @click="$dispatch('toggle-search')" :class="{ 'bg-gray-700 text-purple-400': initSearchState() }"
+                        class="cursor-pointer hover:bg-gray-700">
                         <x-fas-search class="w-5 h-5 mr-3" />
                         <span>{{ __('Recherche') }}</span>
                     </x-nav-link>
+
                     <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                         <x-fas-plus class="w-5 h-5 mr-3" />
                         <span>{{ __('Créer') }}</span>
@@ -92,7 +110,13 @@
             <x-responsive-nav-link :href="route('profile.posts')" :active="request()->routeIs('profile.posts')">
                 {{ __('Mes publications') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="#" :active="request()->routeIs('search')">
+            <x-responsive-nav-link :href="route('profile.followers')" :active="request()->routeIs('profile.followers')">
+                {{ __('Abonnés') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('profile.following')" :active="request()->routeIs('profile.following')">
+                {{ __('Abonnements') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link @click="$dispatch('toggle-search')" :class="{ 'bg-gray-700 text-purple-400': initSearchState() }" class="cursor-pointer">
                 {{ __('Recherche') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">

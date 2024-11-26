@@ -31,4 +31,16 @@ class FollowController extends Controller
             ->delete();
         return back()->with('success', 'Vous ne suivez plus cet utilisateur');
     }
+
+    public function followers()
+    {
+        $followers = Auth::user()->followers()->get();
+        return view('follows.followers', compact('followers'));
+    }
+
+    public function following()
+    {
+        $following = Auth::user()->following()->get();
+        return view('follows.following', compact('following'));
+    }
 }

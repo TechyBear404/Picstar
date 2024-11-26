@@ -27,25 +27,22 @@ Route::middleware('auth')->group(function () {
 
         // Affichage des publications personnelles
         Route::get('/posts', [PostsController::class, 'myPosts'])->name('profile.posts');
+        Route::get('/followers', [FollowController::class, 'followers'])->name('profile.followers');
+        Route::get('/following', [FollowController::class, 'following'])->name('profile.following');
     });
 
-    // Routes pour l'interaction entre utilisateurs
-    Route::prefix('users')->group(function () {
-        // Voir les publications d'un utilisateur spécifique
-        Route::get('/{user}/posts', [PostsController::class, 'userPosts'])->name('users.posts');
-    });
+    // Voir les publications d'un utilisateur spécifique
+    Route::get('/user/{user}/posts', [PostsController::class, 'userPosts'])->name('user.posts');
 
-    // Système de gestion des étiquettes
-    Route::prefix('tags')->group(function () {
-        // Afficher les publications par étiquette
-        Route::get('/{tag}', [PostsController::class, 'postsByTag'])->name('tags.posts');
-    });
+    // Afficher les publications par étiquette
+    Route::get('/tags/{tag}', [PostsController::class, 'postsByTag'])->name('tags.posts');
 
     // Système d'abonnement/désabonnement
     Route::prefix('follow')->group(function () {
         Route::post('/{user}', [FollowController::class, 'store'])->name('follow.store');
         Route::delete('/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
     });
+
 
     // Gestion complète des publications
     Route::prefix('posts')->group(function () {

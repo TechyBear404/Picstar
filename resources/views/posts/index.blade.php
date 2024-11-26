@@ -1,6 +1,8 @@
 <x-app-layout>
     <div class="container px-4 mx-auto mt-6">
-        <div class="grid-masonry">
+        <x-search />
+
+        <di v class="grid-masonry">
             @foreach ($posts as $post)
                 <div class="w-full p-1 pb-0 grid-masonry-item sm:w-1/2 lg:w-1/3">
                     <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="block">
@@ -45,7 +47,7 @@
                     </a>
                 </div>
             @endforeach
-        </div>
+    </div>
     </div>
 
     <script>

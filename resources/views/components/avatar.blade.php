@@ -6,6 +6,7 @@
 
 @php
     $sizeClasses = [
+        'xs' => 'w-5 h-5',
         'sm' => 'w-6 h-6',
         'md' => 'w-10 h-10',
         'lg' => 'w-32 h-32',
@@ -14,6 +15,7 @@
 
     $borderClasses = [
         'none' => '',
+        'xs' => 'border border-purple-500',
         'sm' => 'border-2 border-purple-500',
         'md' => 'border-4 border-purple-500',
         'lg' => 'border-8 border-purple-500',

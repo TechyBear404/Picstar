@@ -11,16 +11,16 @@ class TagSeeder extends Seeder
     public function run(array $parameters = []): void
     {
         $tags = $parameters['tags'] ?? [
-            'Nature',
-            'Portrait',
-            'Street',
-            'Architecture',
-            'Travel',
-            'Food',
-            'Fashion',
-            'Art',
-            'Wildlife',
-            'Urban'
+            'nature',
+            'portrait',
+            'street',
+            'architecture',
+            'travel',
+            'food',
+            'fashion',
+            'art',
+            'wildlife',
+            'urban'
         ];
 
         $this->command->info('Creating tags...');
