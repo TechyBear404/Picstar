@@ -37,8 +37,7 @@
         </main>
 
         <!-- Notifications -->
-        <x-notification type="success" />
-        <x-notification type="error" />
+        <x-notification />
     </div>
 
     @stack('scripts')

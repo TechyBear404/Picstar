@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Messages;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class MessagesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Messages $messages)
+    public function show(Message $messages)
     {
         //
     }
@@ -42,7 +43,7 @@ class MessagesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Messages $messages)
+    public function edit(Message $message)
     {
         //
     }
@@ -50,7 +51,7 @@ class MessagesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Messages $messages)
+    public function update(Request $request, Message $message)
     {
         //
     }
@@ -58,7 +59,7 @@ class MessagesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Messages $messages)
+    public function destroy(Message $message)
     {
         //
     }

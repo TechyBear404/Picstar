@@ -3,7 +3,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-gray-800 shadow-lg rounded-xl">
                 <div class="p-6 border-b border-gray-700">
-                    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-6">
                             <x-input-label for="image" value="Image" />
@@ -21,8 +21,11 @@
 
                         <div class="mb-6">
                             <x-input-label for="description" value="Publication" />
-                            <x-textarea-input id="description" name="description" rows="4"
-                                required>{{ old('description') }}</x-textarea-input>
+                            <div class="relative flex items-start gap-2">
+                                <x-textarea-input id="description" name="description" rows="4"
+                                    required>{{ old('description') }}</x-textarea-input>
+                                <x-emoji-picker targetInput="description" position="left" />
+                            </div>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 

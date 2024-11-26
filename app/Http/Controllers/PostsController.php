@@ -16,7 +16,12 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with(['comments' => function ($query) {
+            $query->with('user', 'replies.user')
+                ->whereNull('parentId')
+                ->latest();
+        }])->latest()->get();
+
         return view('posts.index', compact('posts'));
     }
 
@@ -35,45 +40,60 @@ class PostsController extends Controller
     {
         $validated = $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description' => 'required|string|max:1000', // Changed from 'publication' to match form field name
+            'description' => 'required|string|max:1000',
             'colabs' => 'nullable|string|max:255',
             'tags' => 'nullable|string|max:255',
         ]);
+
+
 
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('posts', 'public');
 
             $post = Post::create([
-                'user_id' => Auth::id(), // Changed from userId to user_id
+                'user_id' => Auth::id(),
                 'image' => $imagePath,
                 'content' => $validated['description'],
             ]);
 
             $colabs = $request->input('colabs');
-            $colabs = explode('@', $colabs);
-            foreach ($colabs as $key => $value) {
-                $colabs[$key] = trim($value, " ,");
-            }
-            // map colabs get userId by colab name need to return an array of object parameter userId,
-            $colabs = collect($colabs)->map(function ($colab) {
-                // return only if user exists
-                if (User::where('name', $colab)->exists()) {
-                    return User::where('name', $colab)->first()->id;
-                }
+            // Split by @ and filter out empty values, trim spaces, and remove leading @
+            $colabs = array_filter(explode('@', $colabs), function ($value) {
+                return !empty(trim($value));
             });
+            $colabs = array_map(function ($value) {
+                return strtolower(trim($value, " @,"));
+            }, $colabs);
 
+            // map colabs get userId by colab name
+            $colabs = collect($colabs)->map(function ($colab) {
+                return User::where('name', $colab)->exists()
+                    ? User::where('name', $colab)->first()->id
+                    : null;
+            })->filter();
 
-            $post->colabs()->attach($colabs);
+            foreach ($colabs as $colab) {
+                if ($colab) {
+                    $post->colabs()->create([
+                        'userId' => $colab,
+                        'postId' => $post->id
+                    ]);
+                }
+            }
 
             $tags = $request->input('tags');
-            $tags = explode('#', $tags);
-            foreach ($tags as $key => $value) {
-                $tags[$key] = strtolower(trim($value, " ,"));
-            }
-            // check if tag exists, if not create it
+            // Split by # and filter out empty values, trim spaces
+            $tags = array_filter(explode('#', $tags), function ($value) {
+                return !empty(trim($value));
+            });
+            $tags = array_map(function ($value) {
+                return strtolower(trim($value, " #,"));
+            }, $tags);
+
+            // Create or get existing tags and collect their IDs
             $tags = collect($tags)->map(function ($tag) {
                 return Tag::firstOrCreate(['name' => $tag])->id;
-            });
+            })->filter();
 
             $post->tags()->attach($tags);
 
@@ -81,7 +101,7 @@ class PostsController extends Controller
                 ->with('success', 'Post créé avec succès!');
         }
 
-        return redirect()->back()->with('error', 'Erreur lors du téléchargement de l\'image.');
+        return back()->with('error', 'Erreur lors du téléchargement de l\'image.');
     }
 
     /**
@@ -89,7 +109,13 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        $post->load(['comments' => function ($query) {
+            $query->with('user', 'replies.user')
+                ->whereNull('parentId')
+                ->latest();
+        }]);
+
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -114,5 +140,21 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    /**
+     * Toggle like status for the post.
+     */
+    public function like(Post $post)
+    {
+        $like = $post->postLikes()->where('userId', Auth::id())->first();
+
+        if ($like) {
+            $like->delete();
+        } else {
+            $post->postLikes()->create(['userId' => Auth::id()]);
+        }
+
+        return back();
     }
 }

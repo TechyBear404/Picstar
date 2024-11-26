@@ -1,7 +1,7 @@
-@props(['type' => 'success'])
+@props(['type' => null])
 
 @php
-    $classes = match ($type) {
+    $classes = match ($type ?? (session('success') ? 'success' : 'error')) {
         'success' => 'bg-green-600 text-white',
         'error' => 'bg-red-600 text-white',
         default => 'bg-gray-600 text-white',
@@ -14,7 +14,7 @@
         $classes,
     ])>
         <div class="flex items-center space-x-3">
-            @if ($type === 'success')
+            @if (session('success'))
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
