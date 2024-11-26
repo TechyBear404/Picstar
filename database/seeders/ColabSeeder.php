@@ -17,7 +17,7 @@ class ColabSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar($posts->count());
 
         $posts->each(function ($post) use ($bar, $maxColabs) {
-            $collaborators = User::where('id', '!=', $post->user_id)
+            $collaborators = User::where('id', '!=', $post->userId)
                 ->inRandomOrder()
                 ->limit(rand(0, $maxColabs))
                 ->get();

@@ -28,13 +28,20 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        // dd($request->all());
+
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
 
+        if ($request->hasFile('avatar')) {
+            $avatarPath = $request->file('avatar')->store("users/" . Auth::id() . "/avatars", 'public');
+            $request->user()->avatar = $avatarPath;
+        }
+
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('profile.edit')->with('success', 'Profil mis à jour avec succès.');
     }
 
     /**

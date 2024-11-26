@@ -13,38 +13,58 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/home', function () {
-//     return view('home');
-// })->middleware(['auth', 'verified'])->name('home');
 
-
+// Toutes les routes sont protégées par l'authentification
 Route::middleware('auth')->group(function () {
-
+    // Page d'accueil principale
     Route::get('/home', [PostsController::class, 'index'])->name('home');
 
+    // Gestion du profil utilisateur
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        // Affichage des publications personnelles
+        Route::get('/posts', [PostsController::class, 'myPosts'])->name('profile.posts');
     });
 
-    Route::resource('posts', PostsController::class);
+    // Routes pour l'interaction entre utilisateurs
+    Route::prefix('users')->group(function () {
+        // Voir les publications d'un utilisateur spécifique
+        Route::get('/{user}/posts', [PostsController::class, 'userPosts'])->name('users.posts');
+    });
 
-    Route::post('/follow/{user}', [FollowController::class, 'store'])->name('follow.store');
-    Route::delete('/follow/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
+    // Système de gestion des étiquettes
+    Route::prefix('tags')->group(function () {
+        // Afficher les publications par étiquette
+        Route::get('/{tag}', [PostsController::class, 'postsByTag'])->name('tags.posts');
+    });
 
-    // Post Likes Routes
-    Route::post('/posts/{post}/like', [PostsController::class, 'like'])->name('posts.like');
+    // Système d'abonnement/désabonnement
+    Route::prefix('follow')->group(function () {
+        Route::post('/{user}', [FollowController::class, 'store'])->name('follow.store');
+        Route::delete('/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
+    });
 
-    // Comment Likes Routes
-    Route::post('/comments/{comment}/like', [CommentLikeController::class, 'store'])->name('comments.like');
-    Route::delete('/comments/{comment}/like', [CommentLikeController::class, 'destroy'])->name('comments.unlike');
+    // Gestion complète des publications
+    Route::prefix('posts')->group(function () {
+        // Interactions avec les publications
+        Route::post('/{post}/like', [PostsController::class, 'like'])->name('posts.like');
+        Route::post('/{post}/comments', [CommentsController::class, 'store'])->name('comments.store');
 
-    // Comments Routes
-    Route::post('/posts/{post}/comments', [CommentsController::class, 'store'])->name('comments.store');
-    Route::post('/comments/{comment}/reply', [CommentsController::class, 'reply'])->name('comments.reply');
-    Route::delete('/comments/{comment}', [CommentsController::class, 'destroy'])->name('comments.destroy');
-    Route::post('/comments/{comment}/like', [CommentsController::class, 'like'])->name('comments.like');
+        // Route spécifique pour voir un post
+        Route::get('/{post}', [PostsController::class, 'show'])->name('posts.show');
+        // Routes ressources pour les autres opérations CRUD
+        Route::resource('', PostsController::class)->except(['show'])->names('posts');
+    });
+
+    // Gestion des commentaires
+    Route::prefix('comments')->group(function () {
+        Route::post('/{comment}/reply', [CommentsController::class, 'reply'])->name('comments.reply');
+        Route::delete('/{comment}', [CommentsController::class, 'destroy'])->name('comments.destroy');
+        Route::post('/{comment}/like', [CommentsController::class, 'like'])->name('comments.like');
+    });
 });
 
 

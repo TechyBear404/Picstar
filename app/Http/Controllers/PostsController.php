@@ -51,7 +51,7 @@ class PostsController extends Controller
             $imagePath = $request->file('image')->store('posts', 'public');
 
             $post = Post::create([
-                'user_id' => Auth::id(),
+                'userId' => Auth::id(),
                 'image' => $imagePath,
                 'content' => $validated['description'],
             ]);
@@ -156,5 +156,28 @@ class PostsController extends Controller
         }
 
         return back();
+    }
+
+    public function myPosts()
+    {
+        $posts = Post::where('userId', Auth::id())->get();
+        // dump($posts);
+        return view('posts.index', compact('posts'));
+    }
+
+    public function userPosts(User $user)
+    {
+        $posts = $user->posts()->latest()->paginate(10);
+        return view('users.posts', compact('posts', 'user'));
+    }
+
+    public function postsByTag(Tag $tag)
+    {
+
+        $posts = Post::whereHas('tags', function ($query) use ($tag) {
+            $query->where('tagId', $tag->id);
+        })->latest()->paginate(10);
+        dump($posts);
+        return view('tags.posts', compact('posts', 'tag'));
     }
 }

@@ -5,9 +5,12 @@
         <div class="p-3 space-y-2 bg-gray-700 rounded-lg">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <img src="{{ $comment->user->avatar ?? asset('images/default-avatar.png') }}"
-                        class="object-cover w-6 h-6 rounded-full">
-                    <span class="text-sm font-semibold text-white">{{ $comment->user->name }}</span>
+                    <x-avatar :user="$comment->user" size="sm" border="sm" />
+                    <div>
+                        <span class="text-sm font-semibold text-white">{{ $comment->user->name }}</span>
+                        <span
+                            class="ml-2 text-xs text-gray-400">{{ $comment->created_at->locale('fr')->diffForHumans() }}</span>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <button class="focus:outline-none"
@@ -62,7 +65,11 @@
                         <div class="flex items-center gap-2">
                             <img src="{{ $reply->user->avatar ?? asset('images/default-avatar.png') }}"
                                 class="object-cover w-5 h-5 rounded-full">
-                            <span class="text-xs font-semibold text-white">{{ $reply->user->name }}</span>
+                            <div>
+                                <span class="text-xs font-semibold text-white">{{ $reply->user->name }}</span>
+                                <span
+                                    class="ml-2 text-xs text-gray-400">{{ $reply->created_at->locale('fr')->diffForHumans() }}</span>
+                            </div>
                         </div>
                     </div>
                     <p class="text-xs text-gray-300">{{ $reply->content }}</p>

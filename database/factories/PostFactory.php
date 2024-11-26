@@ -19,7 +19,7 @@ class PostFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'userId' => User::factory(),
             'content' => $this->faker->paragraph(2),
             'image' => function () {
                 try {
@@ -107,6 +107,7 @@ class PostFactory extends Factory
                     throw $e;
                 }
             },
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }
 }

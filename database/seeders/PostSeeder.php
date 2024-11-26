@@ -12,7 +12,7 @@ class PostSeeder extends Seeder
     public function run(array $parameters = []): void
     {
         $totalPosts = $parameters['count'] ?? 100;
-        $users = User::where('role', '!=', 'admin')->get();
+        $users = User::all();
 
         $this->command->info("Creating {$totalPosts} posts...");
         $bar = $this->command->getOutput()->createProgressBar($totalPosts);
@@ -23,7 +23,7 @@ class PostSeeder extends Seeder
                 if ($postsCreated >= $totalPosts) break;
 
                 Post::factory()->create([
-                    'user_id' => $user->id
+                    'userId' => $user->id
                 ]);
 
                 $postsCreated++;

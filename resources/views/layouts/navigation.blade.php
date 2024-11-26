@@ -17,6 +17,14 @@
                         <x-fas-home class="w-5 h-5 mr-3" />
                         <span>{{ __('Home') }}</span>
                     </x-nav-link>
+                    <x-nav-link :href="route('profile.posts')" :active="request()->routeIs('profile.posts')">
+                        <x-fas-images class="w-5 h-5 mr-3" />
+                        <span>{{ __('Mes publications') }}</span>
+                    </x-nav-link>
+                    <x-nav-link href="#" :active="request()->routeIs('search')">
+                        <x-fas-search class="w-5 h-5 mr-3" />
+                        <span>{{ __('Recherche') }}</span>
+                    </x-nav-link>
                     <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                         <x-fas-plus class="w-5 h-5 mr-3" />
                         <span>{{ __('Créer') }}</span>
@@ -31,9 +39,9 @@
                 <x-slot name="trigger">
                     <button
                         class="flex items-center w-full px-4 py-2 text-gray-200 transition-colors duration-200 rounded-lg hover:bg-gray-700 hover:text-purple-400">
-                        <div class="flex items-center flex-grow">
-                            <x-fas-user class="w-5 h-5 mr-3" />
-                            <span>{{ Auth::user()->name }}</span>
+                        <div class="flex items-center flex-grow gap-2">
+                            <x-avatar :user="Auth::user()" size="md" border="sm" />
+                            <span class="text-xl">{{ Auth::user()->name }}</span>
                         </div>
                         <x-fas-chevron-up class="w-4 h-4 ml-2" />
                     </button>
@@ -80,6 +88,12 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('profile.posts')" :active="request()->routeIs('profile.posts')">
+                {{ __('Mes publications') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="#" :active="request()->routeIs('search')">
+                {{ __('Recherche') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                 {{ __('Créer') }}

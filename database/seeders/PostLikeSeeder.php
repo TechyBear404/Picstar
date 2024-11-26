@@ -17,7 +17,7 @@ class PostLikeSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar($posts->count());
 
         $posts->each(function ($post) use ($bar, $maxLikes) {
-            $likers = User::where('id', '!=', $post->user_id)
+            $likers = User::where('id', '!=', $post->userId)
                 ->inRandomOrder()
                 ->limit(rand(0, $maxLikes))
                 ->get();

@@ -13,12 +13,38 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
         <div class="overflow-hidden bg-gray-800 shadow-lg rounded-xl">
             <div class="p-6 border-b border-gray-700">
+                <div class="mb-6">
+                    <x-input-label for="avatar" value="Photo de profil" class="mb-4" />
+
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <input type="file" name="avatar" id="avatar"
+                                class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                accept="image/*" onchange="previewImage(this)">
+                            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
+                        </div>
+
+                        <!-- Preview Section -->
+                        <div id="previewContainer" class="hidden">
+                            <span class="block mb-2 text-sm text-gray-400">Aperçu :</span>
+                            <div class="relative w-32 h-32">
+                                <div id="defaultPreviewIcon"
+                                    class="flex items-center justify-center w-32 h-32 bg-gray-700 border-4 border-purple-500 rounded-full shadow-xl">
+                                    <i class="text-4xl text-gray-400 fas fa-user"></i>
+                                </div>
+                                <img id="preview"
+                                    class="absolute top-0 hidden object-cover w-32 h-32 border-4 border-purple-500 rounded-full shadow-xl">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mb-6">
                     <x-input-label for="name" :value="__('Nom')" />
                     <x-text-input id="name" name="name" type="text"
@@ -66,3 +92,26 @@
         </div>
     </form>
 </section>
+
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('preview');
+        const defaultIcon = document.getElementById('defaultPreviewIcon');
+        const previewContainer = document.getElementById('previewContainer');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+                defaultIcon.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.classList.add('hidden');
+            defaultIcon.classList.remove('hidden');
+            previewContainer.classList.add('hidden');
+        }
+    }
+</script>
