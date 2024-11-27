@@ -7,12 +7,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostLikeController;
 use App\Http\Controllers\CommentLikeController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 // Toutes les routes sont protégées par l'authentification
 Route::middleware('auth')->group(function () {
@@ -43,10 +45,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{user}', [FollowController::class, 'destroy'])->name('follow.destroy');
     });
 
-
     // Gestion complète des publications
     Route::prefix('posts')->group(function () {
         // Interactions avec les publications
+        Route::get('/search', [PostsController::class, 'search'])->name('posts.search');
         Route::post('/{post}/like', [PostsController::class, 'like'])->name('posts.like');
         Route::post('/{post}/comments', [CommentsController::class, 'store'])->name('comments.store');
 
@@ -55,6 +57,7 @@ Route::middleware('auth')->group(function () {
         // Routes ressources pour les autres opérations CRUD
         Route::resource('', PostsController::class)->except(['show'])->names('posts');
     });
+
 
     // Gestion des commentaires
     Route::prefix('comments')->group(function () {

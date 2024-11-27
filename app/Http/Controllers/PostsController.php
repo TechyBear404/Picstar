@@ -186,4 +186,34 @@ class PostsController extends Controller
 
         return view('posts.index', compact('posts'));
     }
+
+    public function search(Request $request)
+    {
+        $query = Post::query();
+
+        if ($users = $request->input('users')) {
+            $userIds = User::whereIn('name', explode(',', $users))
+                ->pluck('id');
+            $query->whereIn('userId', $userIds);
+        }
+
+        if ($tags = $request->input('tags')) {
+            $tagNames = explode(',', $tags);
+            $query->whereHas('tags', function ($q) use ($tagNames) {
+                $q->whereIn('name', $tagNames);
+            });
+        }
+
+        if ($content = $request->input('content')) {
+            $query->where('content', 'like', '%' . $content . '%');
+        }
+
+        $posts = $query->with(['comments' => function ($query) {
+            $query->with('user', 'replies.user')
+                ->whereNull('parentId')
+                ->latest();
+        }])->latest()->get();
+
+        return view('posts.index', compact('posts'));
+    }
 }

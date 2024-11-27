@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="mb-6">
-                    <x-input-label for="name" :value="__('Nom')" />
+                    <x-input-label for="name" :value="__('Pseudo')" />
                     <x-text-input id="name" name="name" type="text"
                         class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         :value="old('name', $user->name)" required autofocus autocomplete="name" />
