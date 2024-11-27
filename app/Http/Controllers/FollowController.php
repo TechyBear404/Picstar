@@ -34,13 +34,13 @@ class FollowController extends Controller
 
     public function followers()
     {
-        $followers = Auth::user()->followers()->get();
+        $followers = Auth::user()->followers()->with('user')->get();
         return view('follows.followers', compact('followers'));
     }
 
     public function following()
     {
-        $following = Auth::user()->following()->get();
+        $following = Auth::user()->following()->with('user')->get();
         return view('follows.following', compact('following'));
     }
 }

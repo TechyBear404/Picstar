@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 
     // Gestion complète des publications
     Route::prefix('posts')->group(function () {
+        // Routes ressources pour les autres opérations CRUD
+        Route::resource('', PostsController::class)->except(['show'])->names('posts');
         // Interactions avec les publications
         Route::get('/search', [PostsController::class, 'search'])->name('posts.search');
         Route::post('/{post}/like', [PostsController::class, 'like'])->name('posts.like');
@@ -54,8 +56,6 @@ Route::middleware('auth')->group(function () {
 
         // Route spécifique pour voir un post
         Route::get('/{post}', [PostsController::class, 'show'])->name('posts.show');
-        // Routes ressources pour les autres opérations CRUD
-        Route::resource('', PostsController::class)->except(['show'])->names('posts');
     });
 
 
