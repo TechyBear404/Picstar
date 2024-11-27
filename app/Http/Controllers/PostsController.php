@@ -123,7 +123,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.update', compact('post'));
     }
 
     /**
@@ -131,7 +131,65 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $validated = $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'required|string|max:1000',
+            'colabs' => 'nullable|string|max:255',
+            'tags' => 'nullable|string|max:255',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('posts', 'public');
+            $post->image = $imagePath;
+        }
+
+        $post->content = $validated['description'];
+        $post->save();
+
+        $colabs = $request->input('colabs');
+        // Split by @ and filter out empty values, trim spaces, and remove leading @
+        $colabs = array_filter(explode('@', $colabs), function ($value) {
+            return !empty(trim($value));
+        });
+        $colabs = array_map(function ($value) {
+            return strtolower(trim($value, " @,"));
+        }, $colabs);
+
+        // map colabs get userId by colab name
+        $colabs = collect($colabs)->map(function ($colab) {
+            return User::where('name', $colab)->exists()
+                ? User::where('name', $colab)->first()->id
+                : null;
+        })->filter();
+
+        $post->colabs()->delete();
+        foreach ($colabs as $colab) {
+            if ($colab) {
+                $post->colabs()->create([
+                    'userId' => $colab,
+                    'postId' => $post->id
+                ]);
+            }
+        }
+
+        $tags = $request->input('tags');
+        // Split by # and filter out empty values, trim spaces
+        $tags = array_filter(explode('#', $tags), function ($value) {
+            return !empty(trim($value));
+        });
+        $tags = array_map(function ($value) {
+            return strtolower(trim($value, " #,"));
+        }, $tags);
+
+        // Create or get existing tags and collect their IDs
+        $tags = collect($tags)->map(function ($tag) {
+            return Tag::firstOrCreate(['name' => $tag])->id;
+        })->filter();
+
+        $post->tags()->sync($tags);
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post mis à jour avec succès!');
     }
 
     /**
@@ -139,7 +197,12 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->colabs()->delete();
+        $post->tags()->detach();
+        $post->delete();
+
+        return redirect()->route('posts.index')
+            ->with('success', 'Post supprimé avec succès!');
     }
 
     /**
@@ -160,7 +223,11 @@ class PostsController extends Controller
 
     public function myPosts()
     {
-        $posts = Post::where('userId', Auth::id())->get();
+        $posts = Post::where('userId', Auth::id())->with(['comments' => function ($query) {
+            $query->with('user', 'replies.user')
+                ->whereNull('parentId')
+                ->latest();
+        }])->latest()->get();
         // dump($posts);
         return view('posts.index', compact('posts'));
     }

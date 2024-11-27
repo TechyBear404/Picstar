@@ -51,11 +51,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('', PostsController::class)->except(['show'])->names('posts');
         // Interactions avec les publications
         Route::get('/search', [PostsController::class, 'search'])->name('posts.search');
+        Route::get('/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
         Route::post('/{post}/like', [PostsController::class, 'like'])->name('posts.like');
         Route::post('/{post}/comments', [CommentsController::class, 'store'])->name('comments.store');
 
         // Route spécifique pour voir un post
         Route::get('/{post}', [PostsController::class, 'show'])->name('posts.show');
+        Route::put('/{post}', [PostsController::class, 'update'])->name('posts.update');
+        Route::delete('/{post}', [PostsController::class, 'destroy'])->name('posts.destroy');
     });
 
 
