@@ -261,7 +261,6 @@ class PostsController extends Controller
             }])
             ->with('user', 'tags', 'postLikes')
             ->orderByDesc('post_likes_count')
-            ->take(10)
             ->get();
 
         return view('posts.home', compact('followedPosts', 'trendingPosts'));
@@ -312,16 +311,18 @@ class PostsController extends Controller
 
         $query = Post::query();
 
-        if ($users = $request->input('users')) {
-            $userIds = User::whereIn('name', explode(',', $users))
+        $users = $request->input('users');
+
+
+        if ($users) {
+            $userIds = User::whereIn('name', $users)
                 ->pluck('id');
             $query->whereIn('userId', $userIds);
         }
 
         if ($tags = $request->input('tags')) {
-            $tagNames = explode(',', $tags);
-            $query->whereHas('tags', function ($q) use ($tagNames) {
-                $q->whereIn('name', $tagNames);
+            $query->whereHas('tags', function ($q) use ($tags) {
+                $q->whereIn('name', $tags);
             });
         }
 
@@ -335,6 +336,10 @@ class PostsController extends Controller
                 ->latest();
         }])->latest()->get();
 
-        return view('posts.index', compact('posts'));
+        if (!$posts->isEmpty() && count($users) === 1 && !$tags && !$content) {
+            return redirect()->route('profile.show', ['user' => $userIds->first()]);
+        } else {
+            return view('posts.index', compact('posts'));
+        }
     }
 }

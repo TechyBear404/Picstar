@@ -4,11 +4,6 @@
         return localStorage.getItem('searchVisible') === 'true'
     },
     handleSearchClick() {
-        // Check if we're not on a page that supports search
-        if (!@js(request()->routeIs('home') || request()->routeIs('user.posts') || request()->routeIs('tags.posts') || request()->routeIs('profile.posts'))) {
-            window.location.href = '{{ route('home') }}';
-            return;
-        }
         $dispatch('toggle-search');
     }
 }" class="flex flex-col h-full bg-gray-800 border-r border-gray-700">

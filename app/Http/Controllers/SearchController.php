@@ -25,11 +25,6 @@ class SearchController extends Controller
             }
         }
 
-        return redirect()->route('posts.search', [
-            'users' => implode(',', $users),
-            'tags' => implode(',', $tags),
-            'content' => implode(' ', $content),
-            'q' => $query
-        ]);
+        return redirect()->route('posts.search', compact('users', 'tags', 'content'));
     }
 }
