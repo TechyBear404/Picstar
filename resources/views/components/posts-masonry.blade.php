@@ -27,7 +27,9 @@
                     </div>
                     @if (Auth::id() === $post->userId)
                         <a href="{{ route('posts.edit', $post->id) }}"
-                            class="ml-auto text-sm text-blue-500 hover:underline">Modifier</a>
+                            class="px-3 py-1 ml-auto text-xs font-medium text-gray-300 transition-colors duration-200 bg-gray-700 rounded-full hover:bg-gray-600 hover:text-white">
+                            Modifier
+                        </a>
                     @endif
                 </div>
 

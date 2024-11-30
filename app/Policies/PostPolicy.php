@@ -7,9 +7,12 @@ use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
 {
+    use HandlesAuthorization;
+
     // /**
     //  * Determine whether the user can view any models.
     //  */
@@ -46,7 +49,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): Response
     {
-        return $user->user_id === $post->userId
+        return $user->id === $post->userId
             ? Response::allow()
             : Response::deny('Vous n\'êtes pas autorisé à modifier ce post.');
     }
@@ -56,7 +59,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): Response
     {
-        return $user->user_id === $post->userId
+        return $user->id === $post->userId
             ? Response::allow()
             : Response::deny('Vous n\'êtes pas autorisé à supprimer ce post.');
     }

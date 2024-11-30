@@ -80,6 +80,13 @@
                     @endif
                 </div>
 
+                <div class="mb-6">
+                    <x-input-label for="bio" :value="__('Biographie')" />
+                    <textarea id="bio" name="bio" rows="4"
+                        class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">{{ old('bio', $user->bio) }}</textarea>
+                    <x-input-error class="mt-2" :messages="$errors->get('bio')" />
+                </div>
+
                 <div class="flex items-center justify-end">
                     <x-primary-button>{{ __('Enregistrer') }}</x-primary-button>
 

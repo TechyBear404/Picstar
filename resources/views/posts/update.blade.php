@@ -3,7 +3,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-gray-800 shadow-lg rounded-xl">
                 <div class="p-6 border-b border-gray-700">
-                    <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="mb-6">

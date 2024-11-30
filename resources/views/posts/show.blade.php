@@ -29,12 +29,6 @@
                 {{-- Footer avec likes et form de commentaire --}}
                 <x-post.footer :post="$post" :likes-count="$post->likes_count" />
 
-                @if (Auth::id() === $post->userId)
-                    <div class="p-4">
-                        <a href="{{ route('posts.edit', $post->id) }}"
-                            class="text-sm text-blue-500 hover:underline">Modifier</a>
-                    </div>
-                @endif
             </div>
         </div>
     </div>
