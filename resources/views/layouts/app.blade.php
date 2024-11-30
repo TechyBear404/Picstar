@@ -42,6 +42,9 @@
 
         <!-- Notifications -->
         <x-notification />
+
+        <!-- Scroll to top button -->
+        <x-scroll-to-top />
     </div>
 
     @stack('scripts')

@@ -3,10 +3,8 @@
         <div class="flex flex-col lg:flex-row h-[calc(100vh-5rem)] bg-gray-800 rounded-xl overflow-hidden">
             {{-- Section Image --}}
             <div class="w-full h-full border-r border-gray-700 lg:w-2/3">
-                <div class="relative w-full h-full">
-                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post image"
-                        class="absolute inset-0 object-scale-down w-full h-full">
-                </div>
+                <img src="{{ asset('storage/' . $post->image) }}" alt="Post image"
+                    class="inset-0 object-scale-down w-full h-full">
             </div>
 
             {{-- Section Contenu --}}

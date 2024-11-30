@@ -16,7 +16,7 @@
                     <button class="focus:outline-none"
                         onclick="document.getElementById('commentLikeForm{{ $comment->id }}').submit();">
                         <x-fas-heart
-                            class="w-4 h-4 {{ Auth::user()->hasLikeComment($comment) ? 'text-purple-500' : 'text-purple-400' }}" />
+                            class="w-4 h-4 {{ Auth::user()->hasLikeComment($comment) ? 'text-purple-500' : 'text-gray-400 hover:text-purple-400' }}" />
                     </button>
                     <span class="text-xs text-white">{{ $comment->commentLikes()->count() }}</span>
                     <form id="commentLikeForm{{ $comment->id }}" action="{{ route('comments.like', $comment) }}"

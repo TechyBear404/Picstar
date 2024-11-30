@@ -1,7 +1,7 @@
 @props(['post'])
 
 <div class="flex items-center justify-between p-4 border-b border-gray-700">
-    <div class="flex items-center gap-3">
+    <div class="flex flex-row items-center gap-3 mr-2">
         <x-avatar :user="$post->user" size="md" border="sm" />
         <div>
             <a href="{{ route('profile.show', $post->user) }}"
