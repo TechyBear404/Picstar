@@ -19,7 +19,7 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])->name('search.index');
     // Page d'accueil principale
-    Route::get('/home', [PostsController::class, 'index'])->name('home');
+    Route::get('/home', [PostsController::class, 'home'])->name('home');
 
     // Ajouter cette nouvelle route pour le profil
 

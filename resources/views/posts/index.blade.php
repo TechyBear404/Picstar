@@ -4,7 +4,7 @@
             <x-search />
 
             <button @click="viewMode = viewMode === 'masonry' ? 'list' : 'masonry'"
-                class="inline-flex items-center justify-center p-2.5 text-indigo-600 bg-indigo-50 rounded-lg border border-indigo-200 shadow-sm transition-all duration-200 ease-in-out hover:bg-indigo-100 hover:text-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 active:scale-95"
+                class="inline-flex items-center justify-center p-2 text-gray-300 transition-all duration-200 ease-in-out bg-gray-800 border border-gray-700 rounded-lg shadow-sm hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500 active:scale-95"
                 title="Changer la vue">
                 <template x-if="viewMode === 'masonry'">
                     <x-fas-grip class="w-5 h-5" />

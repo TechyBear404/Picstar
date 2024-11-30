@@ -20,15 +20,17 @@
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($followers as $follow)
                         <div class="p-4 transition-colors bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700">
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center justify-between gap-2">
                                 <a href="{{ route('profile.show', ['user' => $follow->user]) }}"
                                     class="flex items-center space-x-3">
                                     <x-avatar :user="$follow->user" size="md" border="sm" />
                                     <div>
                                         <span class="text-lg font-medium text-white">{{ $follow->user->name }}</span>
                                         <div class="flex items-center gap-4 mt-1 text-sm text-gray-400">
-                                            <span>{{ $follow->user->posts()->count() }} publications</span>
-                                            <span>{{ $follow->user->followers()->count() }} abonnés</span>
+                                            <span class="whitespace-nowrap">{{ $follow->user->posts()->count() }}
+                                                publications</span>
+                                            <span class="whitespace-nowrap">{{ $follow->user->followers()->count() }}
+                                                abonnés</span>
                                         </div>
                                     </div>
                                 </a>

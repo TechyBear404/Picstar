@@ -238,6 +238,35 @@ class PostsController extends Controller
         return back();
     }
 
+    public function home()
+    {
+        // Get posts from followed users
+        $followedPosts = Post::whereIn('userId', Auth::user()->following->pluck('followingId'))
+            ->with(['comments' => function ($query) {
+                $query->with('user', 'replies.user')
+                    ->whereNull('parentId')
+                    ->latest();
+            }])
+            ->with('user', 'tags', 'postLikes')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        // Get trending posts by likes count
+        $trendingPosts = Post::withCount('postLikes')
+            ->with(['comments' => function ($query) {
+                $query->with('user', 'replies.user')
+                    ->whereNull('parentId')
+                    ->latest();
+            }])
+            ->with('user', 'tags', 'postLikes')
+            ->orderByDesc('post_likes_count')
+            ->take(10)
+            ->get();
+
+        return view('posts.home', compact('followedPosts', 'trendingPosts'));
+    }
+
     public function myPosts()
     {
 
@@ -248,7 +277,7 @@ class PostsController extends Controller
                 ->whereNull('parentId')
                 ->latest();
         }])->latest()->get();
-        // dump($posts);
+
         return view('posts.index', compact('posts'));
     }
 
@@ -257,10 +286,9 @@ class PostsController extends Controller
 
         Gate::authorize('viewAny', Post::class);
 
-        // need to find users where name is like $user
         $users = User::where('name', 'like', '%' . $user . '%')->get();
         $posts = Post::whereIn('userId', $users->pluck('id'))->get();
-        // $posts = Post::where('userId', $user->id)->latest()->get();
+
         return view('posts.index', compact('posts'));
     }
 
