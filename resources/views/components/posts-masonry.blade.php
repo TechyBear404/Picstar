@@ -22,8 +22,12 @@
                 <div class="flex items-center gap-2 p-2 bg-gray-800">
                     <x-avatar :user="$post->user" size="sm" border="sm" />
                     <div class="flex flex-col">
-                        <span class="text-sm font-semibold text-white">{{ $post->user->name }}</span>
-                        <span class="text-xs text-gray-300">{{ $post->created_at->locale('fr')->diffForHumans() }}</span>
+                        <a href="{{ route('profile.show', $post->user) }}"
+                            class="text-sm font-semibold text-gray-200 transition-colors hover:text-purple-400">
+                            {{ $post->user->name }}
+                        </a>
+                        <span
+                            class="text-xs text-gray-300">{{ $post->created_at->locale('fr')->diffForHumans() }}</span>
                     </div>
                     @if (Auth::id() === $post->userId)
                         <a href="{{ route('posts.edit', $post->id) }}"

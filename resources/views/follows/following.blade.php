@@ -21,7 +21,7 @@
                     @foreach ($following as $follow)
                         <div class="p-4 transition-colors bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700">
                             <div class="flex items-center justify-between">
-                                <a href="{{ route('user.posts', ['user' => $follow->following->name]) }}"
+                                <a href="{{ route('profile.show', ['user' => $follow->following]) }}"
                                     class="flex items-center space-x-3">
                                     <x-avatar :user="$follow->following" size="md" border="sm" />
                                     <div>

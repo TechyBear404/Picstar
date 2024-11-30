@@ -21,6 +21,8 @@ Route::middleware('auth')->group(function () {
     // Page d'accueil principale
     Route::get('/home', [PostsController::class, 'index'])->name('home');
 
+    // Ajouter cette nouvelle route pour le profil
+
     // Gestion du profil utilisateur
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -35,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     // Voir les publications d'un utilisateur spécifique
     Route::get('/user/{user}/posts', [PostsController::class, 'userPosts'])->name('user.posts');
+    Route::get('/user/{user}/profile', [ProfileController::class, 'show'])->name('profile.show');
 
     // Afficher les publications par étiquette
     Route::get('/tags/{tag}', [PostsController::class, 'postsByTag'])->name('tags.posts');

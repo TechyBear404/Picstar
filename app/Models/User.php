@@ -73,6 +73,7 @@ class User extends Authenticatable
     }
 
 
+
     public function postLikes()
     {
         return $this->hasMany(PostLikes::class, 'userId');

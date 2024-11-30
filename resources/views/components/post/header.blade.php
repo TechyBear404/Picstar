@@ -4,7 +4,10 @@
     <div class="flex items-center gap-3">
         <x-avatar :user="$post->user" size="md" border="sm" />
         <div>
-            <h2 class="text-xl font-semibold text-white">{{ $post->user->name }}</h2>
+            <a href="{{ route('profile.show', $post->user) }}"
+                class="text-xl font-semibold text-gray-200 transition-colors hover:text-purple-400">
+                {{ $post->user->name }}
+            </a>
             <span class="text-sm text-gray-400">{{ $post->created_at->locale('fr')->diffForHumans() }}</span>
         </div>
     </div>
