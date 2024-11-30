@@ -8,6 +8,7 @@ use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
 {
@@ -16,6 +17,9 @@ class PostsController extends Controller
      */
     public function index()
     {
+
+        Gate::authorize('viewAny', Post::class);
+
         $posts = Post::with(['comments' => function ($query) {
             $query->with('user', 'replies.user')
                 ->whereNull('parentId')
@@ -30,6 +34,8 @@ class PostsController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Post::class);
+
         return view('posts.create');
     }
 
@@ -38,6 +44,8 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Post::class);
+
         $validated = $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string|max:1000',
@@ -109,6 +117,9 @@ class PostsController extends Controller
      */
     public function show(Post $post)
     {
+
+        Gate::authorize('view', $post);
+
         $post->load(['comments' => function ($query) {
             $query->with('user', 'replies.user')
                 ->whereNull('parentId')
@@ -123,6 +134,8 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
+        Gate::authorize('update', $post);
+
         return view('posts.update', compact('post'));
     }
 
@@ -131,6 +144,8 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        Gate::authorize('update', $post);
+
         $validated = $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'description' => 'required|string|max:1000',
@@ -197,6 +212,8 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
+        Gate::authorize('delete', $post);
+
         $post->colabs()->delete();
         $post->tags()->detach();
         $post->delete();
@@ -223,6 +240,9 @@ class PostsController extends Controller
 
     public function myPosts()
     {
+
+        Gate::authorize('viewAny', Post::class);
+
         $posts = Post::where('userId', Auth::id())->with(['comments' => function ($query) {
             $query->with('user', 'replies.user')
                 ->whereNull('parentId')
@@ -234,6 +254,9 @@ class PostsController extends Controller
 
     public function userPosts($user)
     {
+
+        Gate::authorize('viewAny', Post::class);
+
         // need to find users where name is like $user
         $users = User::where('name', 'like', '%' . $user . '%')->get();
         $posts = Post::whereIn('userId', $users->pluck('id'))->get();
@@ -256,6 +279,9 @@ class PostsController extends Controller
 
     public function search(Request $request)
     {
+
+        Gate::authorize('viewAny', Post::class);
+
         $query = Post::query();
 
         if ($users = $request->input('users')) {

@@ -29,7 +29,7 @@
     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform -translate-y-2"
     x-transition:enter-end="opacity-100 transform translate-y-0" x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 transform translate-y-0"
-    x-transition:leave-end="opacity-0 transform -translate-y-2" class="mb-6">
+    x-transition:leave-end="opacity-0 transform -translate-y-2" class="mb-6 grow">
     <form @submit.prevent="handleSearch" class="flex items-center w-full gap-2 p-4 bg-gray-800 rounded-lg shadow-lg">
         <div class="relative flex-1">
             <input x-model="query" type="text"

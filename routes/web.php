@@ -14,10 +14,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 // Toutes les routes sont protégées par l'authentification
 Route::middleware('auth')->group(function () {
+    Route::get('/search', [SearchController::class, 'index'])->name('search.index');
     // Page d'accueil principale
     Route::get('/home', [PostsController::class, 'index'])->name('home');
 
