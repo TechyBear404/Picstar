@@ -13,7 +13,6 @@
             <!-- Logo -->
             <div class="flex items-center py-4 shrink-0">
                 <a href="{{ route('home') }}">
-                    {{-- <x-application-logo class="block w-auto text-gray-800 fill-current h-9" /> --}}
                     <span class="text-3xl font-bold text-purple-400">Picstar</span>
                 </a>
             </div>
@@ -29,17 +28,14 @@
                         <x-fas-images class="w-5 h-5 mr-3" />
                         <span>{{ __('Mes publications') }}</span>
                     </x-nav-link>
-
-                    <x-nav-link :href="route('profile.followers')" :active="request()->routeIs('profile.followers')">
-                        <x-fas-users class="w-5 h-5 mr-3" />
-                        <span>{{ __('Abonnés') }}</span>
-                    </x-nav-link>
                     <x-nav-link :href="route('profile.following')" :active="request()->routeIs('profile.following')">
                         <x-fas-user-friends class="w-5 h-5 mr-3" />
                         <span>{{ __('Abonnements') }}</span>
                     </x-nav-link>
-
-                    <!-- Search button -->
+                    <x-nav-link :href="route('profile.followers')" :active="request()->routeIs('profile.followers')">
+                        <x-fas-users class="w-5 h-5 mr-3" />
+                        <span>{{ __('Abonnés') }}</span>
+                    </x-nav-link>
                     <x-nav-link @click="handleSearchClick" :class="{ 'bg-gray-700 text-purple-400': initSearchState() }" class="cursor-pointer hover:bg-gray-700">
                         <x-fas-search class="w-5 h-5 mr-3" />
                         <span>{{ __('Recherche') }}</span>

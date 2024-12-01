@@ -11,7 +11,7 @@
 @endphp
 
 <div x-data="{ open: false }" class="relative inline-block">
-    <button type="button" @click="open = !open" class="text-gray-400 hover:text-purple-500 focus:outline-none">
+    <button type="button" @click="open = !open" class="text-gray-400 hover:text-purple-400 focus:outline-none">
         <x-fas-face-smile-beam class="w-5 h-5" />
     </button>
 

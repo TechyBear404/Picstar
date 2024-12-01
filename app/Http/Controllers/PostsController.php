@@ -203,7 +203,7 @@ class PostsController extends Controller
 
         $post->tags()->sync($tags);
 
-        return redirect()->route('posts.index')
+        return redirect()->back()
             ->with('success', 'Post mis à jour avec succès!');
     }
 
@@ -240,7 +240,6 @@ class PostsController extends Controller
 
     public function home()
     {
-        // Get posts from followed users
         $followedPosts = Post::whereIn('userId', Auth::user()->following->pluck('followingId'))
             ->with(['comments' => function ($query) {
                 $query->with('user', 'replies.user')
@@ -252,7 +251,6 @@ class PostsController extends Controller
             ->take(10)
             ->get();
 
-        // Get trending posts by likes count
         $trendingPosts = Post::withCount('postLikes')
             ->with(['comments' => function ($query) {
                 $query->with('user', 'replies.user')

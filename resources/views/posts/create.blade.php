@@ -14,7 +14,7 @@
                             </div>
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                             <div class="mt-4">
-                                <img id="preview" class="hidden max-w-sm rounded-lg shadow-2xl"
+                                <img id="preview" class="hidden max-w-sm mx-auto rounded-lg shadow-2xl"
                                     @if (old('image')) src="{{ old('image') }}" @endif>
                             </div>
                         </div>
