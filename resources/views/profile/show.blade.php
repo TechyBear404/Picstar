@@ -11,12 +11,7 @@
                         @if (auth()->id() !== $user->id)
                             <form action="{{ route('follow.store', $user) }}" method="POST">
                                 @csrf
-                                <button type="submit"
-                                    class="px-4 py-2 rounded-full {{ auth()->user()->isFollowing($user)
-                                        ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white' }}">
-                                    {{ auth()->user()->isFollowing($user) ? 'Unfollow' : 'Follow' }}
-                                </button>
+                                <x-post.follow-button :user="$user" />
                             </form>
                         @endif
                     </div>

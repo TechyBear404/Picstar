@@ -17,7 +17,8 @@
                         class="flex flex-col items-center justify-center text-3xl font-bold text-purple-400 sm:flex-row">
                         <span>Pic</span>
                         <span class="hidden sm:inline">star</span>
-                        <x-fas-star class="w-8 h-8 ml-2" />
+                        <span class="ml-2"><img src="{{ asset('storage/picstar_logo.png') }}" alt="Picstar logo"
+                                class="w-10 h-10"></span>
                     </span>
                 </a>
             </div>

@@ -22,10 +22,10 @@
         <div>
             <a href="/">
                 <span
-                    class="flex flex-col items-center justify-center mt-6 text-3xl font-bold text-purple-400 sm:flex-row">
-                    <span>Pic</span>
-                    <span class="hidden sm:inline">star</span>
-                    <x-fas-star class="w-8 h-8 ml-2" />
+                    class="flex items-center justify-center gap-2 mt-6 text-5xl font-bold text-purple-400 sm:flex-row">
+                    <span>Picstar</span>
+                    <span class="ml-2"><img src="{{ asset('storage/picstar_logo.png') }}" alt="Picstar logo"
+                            class="w-14 h-14"></span>
                 </span>
             </a>
         </div>
