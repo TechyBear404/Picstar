@@ -1,6 +1,6 @@
 @props(['posts'])
 
-<div class="flex flex-col items-center gap-4">
+<div class="flex flex-col items-center gap-4 ">
     @foreach ($posts as $post)
         <div class="w-full max-w-3xl p-1 pb-0 ">
             <div

@@ -20,12 +20,12 @@
 
 <body class="flex min-h-screen font-sans antialiased bg-gray-900">
     <!-- Fixed Navigation -->
-    <div class="fixed inset-y-0 left-0 w-64 bg-gray-800 shadow-lg">
+    <div class="fixed inset-y-0 left-0 w-16 bg-gray-800 shadow-lg sm:w-64">
         @include('layouts.navigation')
     </div>
 
     <!-- Main Content -->
-    <div class="flex flex-col flex-1 ml-64"> <!-- Added margin-left to offset fixed navigation -->
+    <div class="flex flex-col flex-1 ml-16 sm:ml-64"> <!-- Added margin-left to offset fixed navigation -->
         @isset($header)
             <header class="bg-gray-800 shadow">
                 <div class="px-4 py-6 sm:px-6 lg:px-8">

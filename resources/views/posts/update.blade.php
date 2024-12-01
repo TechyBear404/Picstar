@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto sm:px-4 lg:px-0">
             <div class="overflow-hidden bg-gray-800 shadow-lg rounded-xl">
                 <div class="p-6 border-b border-gray-700">
                     <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">

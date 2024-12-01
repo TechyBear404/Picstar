@@ -8,42 +8,47 @@
     }
 }" class="flex flex-col h-full bg-gray-800 border-r border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="flex flex-col flex-1 h-full px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col flex-1 h-full px-2 sm:px-6 lg:px-8">
         <div class="flex flex-col flex-1 ">
             <!-- Logo -->
             <div class="flex items-center py-4 shrink-0">
                 <a href="{{ route('home') }}">
-                    <span class="text-3xl font-bold text-purple-400">Picstar</span>
+                    <span
+                        class="flex flex-col items-center justify-center text-3xl font-bold text-purple-400 sm:flex-row">
+                        <span>Pic</span>
+                        <span class="hidden sm:inline">star</span>
+                        <x-fas-star class="w-8 h-8 ml-2" />
+                    </span>
                 </a>
             </div>
 
             <!-- Navigation Links - Make it scrollable if needed -->
             <div class="flex-1 overflow-y-auto">
-                <div class="flex flex-col space-y-4">
+                <div class="flex flex-col space-y-2 sm:space-y-4">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                        <x-fas-home class="w-5 h-5 mr-3" />
-                        <span>{{ __('Home') }}</span>
+                        <x-fas-home class="w-5 h-5 sm:mr-3" />
+                        <span class="hidden sm:inline">{{ __('Home') }}</span>
                     </x-nav-link>
                     <x-nav-link :href="route('profile.posts')" :active="request()->routeIs('profile.posts')">
-                        <x-fas-images class="w-5 h-5 mr-3" />
-                        <span>{{ __('Mes publications') }}</span>
+                        <x-fas-images class="w-5 h-5 sm:mr-3" />
+                        <span class="hidden sm:inline">{{ __('Mes publications') }}</span>
                     </x-nav-link>
                     <x-nav-link :href="route('profile.following')" :active="request()->routeIs('profile.following')">
-                        <x-fas-user-friends class="w-5 h-5 mr-3" />
-                        <span>{{ __('Abonnements') }}</span>
+                        <x-fas-user-friends class="w-5 h-5 sm:mr-3" />
+                        <span class="hidden sm:inline">{{ __('Abonnements') }}</span>
                     </x-nav-link>
                     <x-nav-link :href="route('profile.followers')" :active="request()->routeIs('profile.followers')">
-                        <x-fas-users class="w-5 h-5 mr-3" />
-                        <span>{{ __('Abonnés') }}</span>
+                        <x-fas-users class="w-5 h-5 sm:mr-3" />
+                        <span class="hidden sm:inline">{{ __('Abonnés') }}</span>
                     </x-nav-link>
                     <x-nav-link @click="handleSearchClick" :class="{ 'bg-gray-700 text-purple-400': initSearchState() }" class="cursor-pointer hover:bg-gray-700">
-                        <x-fas-search class="w-5 h-5 mr-3" />
-                        <span>{{ __('Recherche') }}</span>
+                        <x-fas-search class="w-5 h-5 sm:mr-3" />
+                        <span class="hidden sm:inline">{{ __('Recherche') }}</span>
                     </x-nav-link>
 
                     <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
-                        <x-fas-plus class="w-5 h-5 mr-3" />
-                        <span>{{ __('Créer') }}</span>
+                        <x-fas-plus class="w-5 h-5 sm:mr-3" />
+                        <span class="hidden sm:inline">{{ __('Créer') }}</span>
                     </x-nav-link>
                 </div>
             </div>
@@ -51,15 +56,15 @@
 
         <!-- Settings Dropdown - Keep at bottom -->
         <div class="py-6">
-            <x-dropdown align="top" width="48">
+            <x-dropdown align="top-right" width="48">
                 <x-slot name="trigger">
                     <button
-                        class="flex items-center w-full px-4 py-2 text-gray-200 transition-colors duration-200 rounded-lg hover:bg-gray-700 hover:text-purple-400">
-                        <div class="flex items-center flex-grow gap-2">
+                        class="flex items-center w-full p-1 text-gray-200 transition-colors duration-200 rounded-lg sm:px-4 sm:py-2 hover:bg-gray-700 hover:text-purple-400">
+                        <div class="flex items-center justify-center flex-grow gap-2 sm:justify-start">
                             <x-avatar :user="Auth::user()" size="md" border="sm" />
-                            <span class="text-xl">{{ Auth::user()->name }}</span>
+                            <span class="hidden text-xl sm:inline">{{ Auth::user()->name }}</span>
                         </div>
-                        <x-fas-chevron-up class="w-4 h-4 ml-2" />
+                        <x-fas-chevron-up class="hidden w-4 h-4 ml-2 sm:inline" />
                     </button>
                 </x-slot>
 
@@ -86,7 +91,7 @@
         </div>
 
         <!-- Hamburger -->
-        <div class="flex items-center mt-4 sm:hidden">
+        {{-- <div class="flex items-center mt-4 sm:hidden">
             <button @click="open = ! open"
                 class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
                 <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -96,11 +101,11 @@
                         stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+    {{-- <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                 {{ __('Home') }}
@@ -120,10 +125,10 @@
             <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
                 {{ __('Créer') }}
             </x-responsive-nav-link>
-        </div>
+        </div> --}}
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
+    <!-- Responsive Settings Options -->
+    {{-- <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
@@ -145,6 +150,6 @@
                     </x-responsive-nav-link>
                 </form>
             </div>
-        </div>
+        </div> --}}
     </div>
 </nav>

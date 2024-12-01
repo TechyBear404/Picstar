@@ -4,6 +4,9 @@
     $alignmentClasses = match ($align) {
         'left' => 'ltr:origin-top-left rtl:origin-top-right start-0',
         'top' => 'origin-bottom-right end-0 bottom-full',
+        'right' => 'ltr:origin-top-right rtl:origin-top-left end-0',
+        'bottom' => 'origin-top-right end-0 top-full',
+        'top-right' => 'ltr:origin-bottom-left rtl:origin-bottom-right start-0 bottom-full',
         default => 'ltr:origin-top-right rtl:origin-top-left end-0',
     };
 

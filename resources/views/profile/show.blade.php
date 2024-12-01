@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {{-- Profile Header --}}
-        <div class="p-6 mb-6 bg-gray-800 rounded-lg shadow-lg">
+        <div class="max-w-3xl p-6 mx-auto mb-6 bg-gray-800 rounded-lg shadow-lg">
             <div class="flex items-center space-x-6">
                 <x-avatar :user="$user" size="xl" border="md" />
 
@@ -45,7 +45,7 @@
         </div>
 
         {{-- Posts Grid --}}
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {{-- <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             @foreach ($posts as $post)
                 <div class="overflow-hidden bg-gray-800 rounded-lg shadow-lg">
                     <a href="{{ route('posts.show', $post) }}" class="block">
@@ -68,7 +68,8 @@
                     </a>
                 </div>
             @endforeach
-        </div>
+        </div> --}}
+        <x-posts-list :posts="$posts" />
 
         {{-- Pagination --}}
         <div class="mt-6">
