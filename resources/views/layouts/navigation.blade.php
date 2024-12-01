@@ -27,7 +27,7 @@
                 <div class="flex flex-col space-y-2 sm:space-y-4">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                         <x-fas-home class="w-5 h-5 sm:mr-3" />
-                        <span class="hidden sm:inline">{{ __('Home') }}</span>
+                        <span class="hidden sm:inline">{{ __('Accueil') }}</span>
                     </x-nav-link>
                     <x-nav-link :href="route('profile.posts')" :active="request()->routeIs('profile.posts')">
                         <x-fas-images class="w-5 h-5 sm:mr-3" />

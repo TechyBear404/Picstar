@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="mb-6">
-                    <x-input-label for="name" :value="__('Nom')" />
+                    <x-input-label for="name" :value="__('Pseudo')" />
                     <x-text-input id="name"
                         class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
@@ -41,6 +41,14 @@
                     <x-text-input id="email" class="block w-full mt-1" type="email" name="email"
                         :value="old('email')" required autocomplete="username" />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+
+                <!-- Biography -->
+                <div class="mt-4">
+                    <x-input-label for="bio" :value="__('Biographie')" />
+                    <textarea id="bio" name="bio" rows="4"
+                        class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">{{ old('bio') }}</textarea>
+                    <x-input-error :messages="$errors->get('bio')" class="mt-2" />
                 </div>
 
                 <!-- Password -->
@@ -61,14 +69,6 @@
                         name="password_confirmation" required autocomplete="new-password" />
 
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                </div>
-
-                <!-- Biography -->
-                <div class="mt-4">
-                    <x-input-label for="bio" :value="__('Biographie')" />
-                    <textarea id="bio" name="bio" rows="4"
-                        class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">{{ old('bio') }}</textarea>
-                    <x-input-error :messages="$errors->get('bio')" class="mt-2" />
                 </div>
 
                 <div class="flex items-center justify-end mt-4">

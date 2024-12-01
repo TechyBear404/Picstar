@@ -235,7 +235,7 @@ class PostsController extends Controller
             $post->postLikes()->create(['userId' => Auth::id()]);
         }
 
-        return back();
+        return redirect()->back()->with('scroll', 'true');
     }
 
     public function home()

@@ -24,22 +24,18 @@
                 </div>
 
                 <!-- Image container with hover effects -->
-                <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="block">
-                    <div class="relative group ">
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="Post image"
-                            class="object-cover w-full h-[400px] transition-opacity duration-300 group-hover:opacity-90">
+                <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="relative block group">
+                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post image"
+                        class="object-cover w-full transition-opacity duration-300 group-hover:opacity-90">
 
-                        <!-- Stats overlay - visible on hover -->
-                        <div
-                            class="absolute inset-0 flex items-center justify-center space-x-6 transition-opacity duration-300 opacity-0 bg-black/60 group-hover:opacity-100">
-                            <span class="flex items-center text-white">
-                                <x-fas-heart class="w-4 h-4 mr-1" />
-                                {{ $post->postLikes->count() }}
-                            </span>
-                            <span class="flex items-center text-white">
-                                <x-fas-comment class="w-4 h-4 mr-1" />
-                                {{ $post->comments->count() }}
-                            </span>
+                    <div
+                        class="absolute inset-0 flex items-center justify-center space-x-6 transition-opacity duration-300 opacity-0 bg-black/60 group-hover:opacity-100">
+                        <div class="flex items-center text-white cursor-pointer" onclick="event.preventDefault();">
+                            <x-like-post :post="$post" />
+                        </div>
+                        <div class="flex items-center text-white">
+                            <x-fas-comment class="w-5 h-5 mr-1" />
+                            {{ $post->comments->count() }}
                         </div>
                     </div>
                 </a>

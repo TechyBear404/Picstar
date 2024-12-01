@@ -1,7 +1,7 @@
 @props(['post', 'likesCount'])
 
 <div class="p-4 border-t border-gray-700">
-    <div class="flex items-center justify-between mb-4">
+    {{-- <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-2">
             <button class="transition-transform focus:outline-none hover:scale-110"
                 onclick="document.getElementById('postLikeForm-{{ $post->id }}').submit();">
@@ -14,7 +14,8 @@
             class="hidden">
             @csrf
         </form>
-    </div>
+    </div> --}}
+    <x-like-post :post="$post" class="mb-2" />
 
     <form action="{{ route('comments.store', $post) }}" method="POST" class="w-full">
         @csrf

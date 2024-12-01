@@ -21,7 +21,12 @@
 
         <div>
             <a href="/">
-                <x-application-logo class="w-20 h-20 text-purple-500 fill-current" />
+                <span
+                    class="flex flex-col items-center justify-center mt-6 text-3xl font-bold text-purple-400 sm:flex-row">
+                    <span>Pic</span>
+                    <span class="hidden sm:inline">star</span>
+                    <x-fas-star class="w-8 h-8 ml-2" />
+                </span>
             </a>
         </div>
 

@@ -1,5 +1,8 @@
 <x-app-layout>
-    <div class="container mx-auto mt-6 sm:px-4" x-data="{ viewMode: 'list' }">
+    <div class="container mx-auto mt-6 sm:px-4" x-data="{
+        viewMode: localStorage.getItem('viewMode') || 'list'
+    }"
+        x-effect="localStorage.setItem('viewMode', viewMode)">
         <button @click="viewMode = viewMode === 'masonry' ? 'list' : 'masonry'"
             class="fixed z-50 inline-flex items-center justify-center p-3 text-gray-300 transition-all duration-200 ease-in-out border border-gray-700 rounded-full shadow-lg opacity-70 hover:opacity-100 right-4 top-4 md:right-8 md:top-8 bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700 hover:text-white hover:border-purple-500"
             title="Changer la vue">

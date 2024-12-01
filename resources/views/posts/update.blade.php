@@ -7,6 +7,10 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-6">
+                            <div class="mt-4">
+                                <img id="preview" class="max-w-sm mx-auto rounded-lg shadow-2xl"
+                                    src="{{ $post->image ? asset('storage/' . $post->image) : '' }}">
+                            </div>
                             <x-input-label for="image" value="Image" />
                             <div class="relative group">
                                 <input type="file" name="image" id="image"
@@ -22,14 +26,10 @@
                                 </label>
                             </div>
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
-                            <div class="mt-4">
-                                <img id="preview" class="max-w-sm mx-auto rounded-lg shadow-2xl"
-                                    src="{{ $post->image ? asset('storage/' . $post->image) : '' }}">
-                            </div>
                         </div>
 
                         <div class="mb-6">
-                            <x-input-label for="description" value="Publication" />
+                            <x-input-label for="description" value="Légende" />
                             <div class="relative flex items-start gap-2">
                                 <x-textarea-input id="description" name="description" rows="4"
                                     required>{{ old('description', $post->content) }}</x-textarea-input>

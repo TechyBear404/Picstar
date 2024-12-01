@@ -6,21 +6,29 @@
                     <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-6">
-                            <x-input-label for="image" value="Image" />
-                            <div class="relative">
-                                <input type="file" name="image" id="image"
-                                    class="w-full px-4 py-3 text-gray-300 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                                    accept="image/*" required onchange="previewImage(this)">
-                            </div>
-                            <x-input-error :messages="$errors->get('image')" class="mt-2" />
                             <div class="mt-4">
                                 <img id="preview" class="hidden max-w-sm mx-auto rounded-lg shadow-2xl"
                                     @if (old('image')) src="{{ old('image') }}" @endif>
                             </div>
+                            <x-input-label for="image" value="Image" />
+                            <div class="relative group">
+                                <input type="file" name="image" id="image"
+                                    class="absolute inset-0 z-50 hidden w-full h-full opacity-0 cursor-pointer"
+                                    accept="image/*" onchange="previewImage(this)">
+                                <label for="image" title="Sélectionner une image"
+                                    class="flex items-center w-full gap-2 px-4 py-3 transition-all bg-gray-700 border border-gray-600 rounded-lg cursor-pointer hover:bg-gray-600">
+                                    <x-fas-camera
+                                        class="w-5 h-5 text-gray-300 transition-all cursor-pointer group-hover:text-purple-400" />
+                                    <span class="text-gray-300" id="imageLabel">
+                                        {{ 'Sélectionner une image' }}
+                                    </span>
+                                </label>
+                            </div>
+                            <x-input-error :messages="$errors->get('image')" class="mt-2" />
                         </div>
 
                         <div class="mb-6">
-                            <x-input-label for="description" value="Publication" />
+                            <x-input-label for="description" value="Légende" />
                             <div class="relative flex items-start gap-2">
                                 <x-textarea-input id="description" name="description" rows="4"
                                     required>{{ old('description') }}</x-textarea-input>
@@ -58,8 +66,13 @@
 <script>
     function previewImage(input) {
         const preview = document.getElementById('preview');
+        const imageLabel = document.getElementById('imageLabel');
+
         if (input.files && input.files[0]) {
             const reader = new FileReader();
+            const fileName = input.files[0].name;
+
+            imageLabel.textContent = fileName;
 
             reader.onload = function(e) {
                 preview.src = e.target.result;
@@ -70,6 +83,7 @@
         } else {
             preview.src = '';
             preview.classList.add('hidden');
+            imageLabel.textContent = 'Sélectionner une image';
         }
     }
 </script>

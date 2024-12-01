@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6">
-        <div class="items-center justify-between mb-6 md:flex">
+        <div class="container items-center justify-between px-4 mx-auto mb-6 md:flex">
             <h2 class="text-2xl font-bold text-white">Mes abonnements</h2>
             <div class="flex items-center gap-2">
                 <span class="text-lg text-gray-400">{{ $following->count() }} abonnements</span>
