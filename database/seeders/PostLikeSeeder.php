@@ -7,8 +7,15 @@ use App\Models\User;
 use App\Models\PostLikes;
 use Illuminate\Database\Seeder;
 
+/**
+ * Seeder pour générer des likes aléatoires sur les posts
+ */
 class PostLikeSeeder extends Seeder
 {
+    /**
+     * Crée des likes aléatoires pour chaque post
+     * @param array $parameters Paramètres optionnels (maxLikes: nombre maximum de likes par post)
+     */
     public function run(array $parameters = []): void
     {
         $maxLikes = $parameters['maxLikes'] ?? 30;

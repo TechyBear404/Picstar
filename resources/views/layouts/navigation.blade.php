@@ -1,3 +1,4 @@
+{{-- Barre de navigation principale avec état de recherche géré par Alpine.js --}}
 <nav x-data="{
     open: false,
     initSearchState() {
@@ -7,10 +8,10 @@
         $dispatch('toggle-search');
     }
 }" class="flex flex-col h-full bg-gray-800 border-r border-gray-700">
-    <!-- Primary Navigation Menu -->
+    {{-- Container principal de navigation --}}
     <div class="flex flex-col flex-1 h-full px-2 sm:px-6 lg:px-8">
         <div class="flex flex-col flex-1 ">
-            <!-- Logo -->
+            {{-- Logo de l'application avec texte responsive --}}
             <div class="flex items-center py-4 shrink-0">
                 <a href="{{ route('home') }}">
                     <span
@@ -23,7 +24,7 @@
                 </a>
             </div>
 
-            <!-- Navigation Links - Make it scrollable if needed -->
+            {{-- Liste des liens de navigation principaux avec icônes --}}
             <div class="flex-1 overflow-y-auto">
                 <div class="flex flex-col space-y-2 sm:space-y-4">
                     <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
@@ -55,7 +56,7 @@
             </div>
         </div>
 
-        <!-- Settings Dropdown - Keep at bottom -->
+        {{-- Menu déroulant du profil utilisateur --}}
         <div class="py-6">
             <x-dropdown align="top-right" width="48">
                 <x-slot name="trigger">
@@ -90,67 +91,5 @@
                 </x-slot>
             </x-dropdown>
         </div>
-
-        <!-- Hamburger -->
-        {{-- <div class="flex items-center mt-4 sm:hidden">
-            <button @click="open = ! open"
-                class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
-                <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                        stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div> --}}
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    {{-- <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                {{ __('Home') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('profile.posts')" :active="request()->routeIs('profile.posts')">
-                {{ __('Mes publications') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('profile.followers')" :active="request()->routeIs('profile.followers')">
-                {{ __('Abonnés') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('profile.following')" :active="request()->routeIs('profile.following')">
-                {{ __('Abonnements') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link @click="handleSearchClick" :class="{ 'bg-gray-700 text-purple-400': initSearchState() }" class="cursor-pointer">
-                {{ __('Recherche') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')">
-                {{ __('Créer') }}
-            </x-responsive-nav-link>
-        </div> --}}
-
-    <!-- Responsive Settings Options -->
-    {{-- <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="text-base font-medium text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="text-sm font-medium text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div> --}}
     </div>
 </nav>

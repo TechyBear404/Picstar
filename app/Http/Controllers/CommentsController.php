@@ -11,10 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentsController extends Controller
 {
+    /**
+     * Créer un nouveau commentaire sur un post
+     */
     public function store(Request $request, Post $post)
     {
-        $comment = $post->comments()->create([
-            'content' => $request->content,
+        $validatedData = $request->validate([
+            'content' => 'required|string|max:255'
+        ]);
+        $post->comments()->create([
+            'content' => $validatedData['content'],
             'userId' => Auth::id(),
             'postId' => $post->id
         ]);
@@ -22,10 +28,16 @@ class CommentsController extends Controller
         return back()->with('success', 'Commentaire ajouté avec succès');
     }
 
+    /**
+     * Ajouter une réponse à un commentaire existant
+     */
     public function reply(Request $request, Comment $comment)
     {
-        $reply = Comment::create([
-            'content' => $request->content,
+        $validatedData = $request->validate([
+            'content' => 'required|string|max:255'
+        ]);
+        Comment::create([
+            'content' => $validatedData['content'],
             'userId' => Auth::id(),
             'postId' => $comment->postId,
             'parentId' => $comment->id
@@ -34,8 +46,13 @@ class CommentsController extends Controller
         return back()->with('success', 'Réponse ajoutée avec succès');
     }
 
+    /**
+     * Basculer le like d'un commentaire pour l'utilisateur connecté
+     */
     public function like(Comment $comment)
     {
+        // Vérifie si l'utilisateur a déjà liké le commentaire
+        // Si oui, supprime le like, sinon crée un nouveau like
         $like = $comment->commentLikes()->where('userId', Auth::id())->first();
 
         if ($like) {
@@ -47,6 +64,10 @@ class CommentsController extends Controller
         return back();
     }
 
+    /**
+     * Supprimer un commentaire
+     * Vérifie que l'utilisateur est bien l'auteur du commentaire
+     */
     public function destroy(Comment $comment)
     {
         if ($comment->userId !== Auth::id()) {

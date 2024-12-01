@@ -9,6 +9,11 @@ use Illuminate\Database\Seeder;
 
 class CommentSeeder extends Seeder
 {
+    /**
+     * Crée des commentaires pour chaque post
+     * Génère à la fois des commentaires principaux et des réponses
+     * @param array $parameters Contient maxComments: nombre maximum de commentaires par post
+     */
     public function run(array $parameters = []): void
     {
         $maxComments = $parameters['maxComments'] ?? 10;
@@ -19,12 +24,13 @@ class CommentSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar($totalPosts);
 
         $posts->each(function ($post) use ($bar, $maxComments) {
+            // Crée les commentaires principaux
             $commentCount = rand(1, $maxComments);
             Comment::factory($commentCount)->create([
                 'postId' => $post->id,
                 'userId' => User::inRandomOrder()->first()->id,
             ])->each(function ($comment) use ($maxComments) {
-                // Add replies (using 30% of max comments for replies)
+                // Crée des réponses aux commentaires (30% du maximum)
                 $maxReplies = max(3, floor($maxComments * 0.3));
                 Comment::factory(rand(0, $maxReplies))->create([
                     'postId' => $comment->postId,

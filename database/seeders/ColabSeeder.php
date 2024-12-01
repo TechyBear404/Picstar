@@ -7,8 +7,15 @@ use App\Models\User;
 use App\Models\Colabs;
 use Illuminate\Database\Seeder;
 
+/**
+ * Seeder pour générer des collaborations aléatoires sur les posts
+ */
 class ColabSeeder extends Seeder
 {
+    /**
+     * Crée des collaborations aléatoires pour chaque post
+     * @param array $parameters Paramètres optionnels (maxColabs: nombre maximum de collaborateurs par post)
+     */
     public function run(array $parameters = []): void
     {
         $maxColabs = $parameters['maxColabs'] ?? 3;

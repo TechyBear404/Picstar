@@ -13,6 +13,7 @@
 <body class="antialiased">
     <div class="relative min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
         <!-- Navigation -->
+        {{-- Barre de navigation avec les liens de connexion/inscription --}}
         @if (Route::has('login'))
             <nav class="absolute top-0 right-0 p-6">
                 @auth
@@ -30,20 +31,26 @@
         @endif
 
         <!-- Main Content -->
+        {{-- Contenu principal de la page d'accueil --}}
         <div class="flex flex-col items-center justify-center min-h-screen px-4">
 
             <!-- Welcome Message -->
+            {{-- En-tête avec logo et titre de l'application --}}
             <div class="flex items-center gap-4 mb-6 ">
-                <h1 class="font-bold text-center text-purple-500 text-7xl">Picstar</h1>
-                <span class="ml-2"><img src="{{ asset('storage/picstar_logo.png') }}" alt="Picstar logo"
-                        class="w-20 h-20"></span>
+                <h1 class="text-6xl font-bold text-center text-purple-500">Picstar</h1>
+                <picture class="w-20 h-20 ml-2">
+                    <img src="{{ asset('storage/picstar_logo.png') }}" alt="Picstar logo" class="">
+                </picture>
             </div>
+
+            {{-- Message de bienvenue et description --}}
             <p class="max-w-2xl mb-8 text-xl text-center text-purple-200">
                 Partagez vos moments de vie, exprimez-vous à travers vos photos et connectez-vous avec vos proches.
                 Rejoignez une communauté dynamique où chaque instant compte.
             </p>
 
             <!-- CTA Buttons -->
+            {{-- Boutons d'appel à l'action (CTA) --}}
             <div class="flex gap-4">
                 <a href="{{ route('register') }}"
                     class="px-8 py-3 text-lg font-semibold text-white transition-all duration-200 bg-purple-600 rounded-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-400">
@@ -56,6 +63,7 @@
             </div>
 
             <!-- Features -->
+            {{-- Section des fonctionnalités principales --}}
             <div class="grid max-w-6xl grid-cols-1 gap-8 mt-16 md:grid-cols-3">
                 <div class="p-6 text-center rounded-lg bg-gray-800/50">
                     <h3 class="mb-3 text-xl font-semibold text-purple-300">Partagez</h3>
@@ -64,7 +72,7 @@
                 </div>
                 <div class="p-6 text-center rounded-lg bg-gray-800/50">
                     <h3 class="mb-3 text-xl font-semibold text-purple-300">Connectez</h3>
-                    <p class="text-gray-300">Suivez vos amis, likez leurs posts et échangez via les messages</p>
+                    <p class="text-gray-300">Suivez vos amis, likez leurs posts</p>
                 </div>
                 <div class="p-6 text-center rounded-lg bg-gray-800/50">
                     <h3 class="mb-3 text-xl font-semibold text-purple-300">Explorez</h3>

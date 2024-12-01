@@ -9,12 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
-    public function index()
-    {
-        // $following = Auth::user()->following;
-        // return view('follows.index', compact('following'));
-    }
 
+    /**
+     * Créer une nouvelle relation de suivi
+     */
     public function store(Request $request, User $user)
     {
         Follow::create([
@@ -24,6 +22,9 @@ class FollowController extends Controller
         return back()->with('success', 'Vous suivez maintenant cet utilisateur');
     }
 
+    /**
+     * Supprimer une relation de suivi
+     */
     public function destroy(User $user)
     {
         Follow::where('followerId', Auth::id())
@@ -32,12 +33,18 @@ class FollowController extends Controller
         return back()->with('success', 'Vous ne suivez plus cet utilisateur');
     }
 
+    /**
+     * Affiche la liste des abonnés de l'utilisateur
+     */
     public function followers()
     {
         $followers = Auth::user()->followers()->with('user')->get();
         return view('follows.followers', compact('followers'));
     }
 
+    /**
+     * Affiche la liste des abonnements de l'utilisateur
+     */
     public function following()
     {
         $following = Auth::user()->following()->with('user')->get();

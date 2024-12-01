@@ -1,10 +1,13 @@
 <x-app-layout>
+    {{-- Container principal du formulaire --}}
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-4 lg:px-0">
             <div class="overflow-hidden bg-gray-800 shadow-lg rounded-xl">
                 <div class="p-6 border-b border-gray-700">
+                    {{-- Formulaire de création avec support fichiers --}}
                     <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
                         @csrf
+                        {{-- Section upload et prévisualisation d'image --}}
                         <div class="mb-6">
                             <div class="mt-4">
                                 <img id="preview" class="hidden max-w-sm mx-auto rounded-lg shadow-2xl"
@@ -27,6 +30,7 @@
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                         </div>
 
+                        {{-- Section description avec support emoji --}}
                         <div class="mb-6">
                             <x-input-label for="description" value="Légende" />
                             <div class="relative flex items-start gap-2">
@@ -37,6 +41,7 @@
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
+                        {{-- Section mentions collaborateurs --}}
                         <div class="mb-6">
                             <x-input-label for="colabs" value="Collaborateurs" />
                             <x-text-input id="colabs" name="colabs" type="text"
@@ -44,6 +49,7 @@
                             <x-input-error :messages="$errors->get('colabs')" class="mt-2" />
                         </div>
 
+                        {{-- Section hashtags --}}
                         <div class="mb-6">
                             <x-input-label for="tags" value="Tags" />
                             <x-text-input id="tags" name="tags" type="text" placeholder="#photo #art"
@@ -51,6 +57,7 @@
                             <x-input-error :messages="$errors->get('tags')" class="mt-2" />
                         </div>
 
+                        {{-- Bouton de publication --}}
                         <div class="flex items-center justify-end">
                             <x-primary-button>
                                 Publier
@@ -63,6 +70,7 @@
     </div>
 </x-app-layout>
 
+{{-- Scripts de prévisualisation --}}
 <script>
     function previewImage(input) {
         const preview = document.getElementById('preview');

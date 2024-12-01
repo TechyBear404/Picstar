@@ -1,22 +1,11 @@
 @props(['post', 'likesCount'])
 
+{{-- Pied de post avec interactions sociales --}}
 <div class="p-4 border-t border-gray-700">
-    {{-- <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center space-x-2">
-            <button class="transition-transform focus:outline-none hover:scale-110"
-                onclick="document.getElementById('postLikeForm-{{ $post->id }}').submit();">
-                <x-fas-heart
-                    class="w-5 h-5 {{ Auth::user()->hasPostLike($post) ? 'text-purple-500' : 'text-gray-400 hover:text-purple-400' }}" />
-            </button>
-            <span class="text-white">{{ $likesCount ?? $post->postLikes()->count() }}</span>
-        </div>
-        <form id="postLikeForm-{{ $post->id }}" action="{{ route('posts.like', $post) }}" method="POST"
-            class="hidden">
-            @csrf
-        </form>
-    </div> --}}
+    {{-- Composant de like --}}
     <x-like-post :post="$post" class="mb-2" />
 
+    {{-- Formulaire d'ajout de commentaire avec emoji picker --}}
     <form action="{{ route('comments.store', $post) }}" method="POST" class="w-full">
         @csrf
         <div class="flex items-center min-w-0 gap-2 flex-nowrap">

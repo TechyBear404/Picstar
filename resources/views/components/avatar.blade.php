@@ -1,9 +1,11 @@
+{{-- Composant d'avatar configurable avec différentes tailles et bordures --}}
 @props([
     'user',
     'size' => 'md', // sm, md, lg, xl
     'border' => 'none', // sm, md, lg, xl
 ])
 
+{{-- Configuration des classes de taille et de bordure --}}
 @php
     $sizeClasses = [
         'xs' => 'w-5 h-5',
@@ -24,6 +26,7 @@
 @endphp
 
 <div class="relative {{ $sizeClasses }}">
+    {{-- Affichage conditionnel de l'avatar ou de l'icône par défaut --}}
     @if ($user->avatar)
         <img src="{{ asset('storage/' . $user->avatar) }}" alt="{{ $user->name }}"
             class="object-cover rounded-full shadow-xl bg-gray-700 {{ $sizeClasses }} {{ $borderClasses }}">

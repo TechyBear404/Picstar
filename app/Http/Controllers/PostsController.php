@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Gate;
 class PostsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Affiche la liste de tous les posts avec leurs commentaires associés
      */
     public function index()
     {
@@ -30,7 +30,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Affiche le formulaire de création d'un post
      */
     public function create()
     {
@@ -40,7 +40,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Enregistre un nouveau post avec ses tags et collaborateurs
      */
     public function store(Request $request)
     {
@@ -53,8 +53,6 @@ class PostsController extends Controller
             'tags' => 'nullable|string|max:255',
         ]);
 
-
-
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('posts', 'public');
 
@@ -64,8 +62,10 @@ class PostsController extends Controller
                 'content' => $validated['description'],
             ]);
 
+            // Traitement des collaborateurs
+            // Split et nettoyage des noms de collaborateurs entrés avec @
             $colabs = $request->input('colabs');
-            // Split by @ and filter out empty values, trim spaces, and remove leading @
+
             $colabs = array_filter(explode('@', $colabs), function ($value) {
                 return !empty(trim($value));
             });
@@ -73,7 +73,6 @@ class PostsController extends Controller
                 return strtolower(trim($value, " @,"));
             }, $colabs);
 
-            // map colabs get userId by colab name
             $colabs = collect($colabs)->map(function ($colab) {
                 return User::where('name', $colab)->exists()
                     ? User::where('name', $colab)->first()->id
@@ -89,8 +88,10 @@ class PostsController extends Controller
                 }
             }
 
+            // Traitement des tags
+            // Split et nettoyage des tags entrés avec #
             $tags = $request->input('tags');
-            // Split by # and filter out empty values, trim spaces
+
             $tags = array_filter(explode('#', $tags), function ($value) {
                 return !empty(trim($value));
             });
@@ -98,7 +99,6 @@ class PostsController extends Controller
                 return strtolower(trim($value, " #,"));
             }, $tags);
 
-            // Create or get existing tags and collect their IDs
             $tags = collect($tags)->map(function ($tag) {
                 return Tag::firstOrCreate(['name' => $tag])->id;
             })->filter();
@@ -113,7 +113,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Affiche un post spécifique avec ses commentaires
      */
     public function show(Post $post)
     {
@@ -130,7 +130,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Affiche le formulaire d'édition d'un post
      */
     public function edit(Post $post)
     {
@@ -140,7 +140,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Met à jour un post existant avec ses tags et collaborateurs
      */
     public function update(Request $request, Post $post)
     {
@@ -161,8 +161,9 @@ class PostsController extends Controller
         $post->content = $validated['description'];
         $post->save();
 
+        // Même logique que store pour les collaborateurs et les tags
         $colabs = $request->input('colabs');
-        // Split by @ and filter out empty values, trim spaces, and remove leading @
+
         $colabs = array_filter(explode('@', $colabs), function ($value) {
             return !empty(trim($value));
         });
@@ -170,7 +171,6 @@ class PostsController extends Controller
             return strtolower(trim($value, " @,"));
         }, $colabs);
 
-        // map colabs get userId by colab name
         $colabs = collect($colabs)->map(function ($colab) {
             return User::where('name', $colab)->exists()
                 ? User::where('name', $colab)->first()->id
@@ -188,7 +188,7 @@ class PostsController extends Controller
         }
 
         $tags = $request->input('tags');
-        // Split by # and filter out empty values, trim spaces
+
         $tags = array_filter(explode('#', $tags), function ($value) {
             return !empty(trim($value));
         });
@@ -196,7 +196,6 @@ class PostsController extends Controller
             return strtolower(trim($value, " #,"));
         }, $tags);
 
-        // Create or get existing tags and collect their IDs
         $tags = collect($tags)->map(function ($tag) {
             return Tag::firstOrCreate(['name' => $tag])->id;
         })->filter();
@@ -208,7 +207,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Supprime un post et ses relations associées
      */
     public function destroy(Post $post)
     {
@@ -223,7 +222,7 @@ class PostsController extends Controller
     }
 
     /**
-     * Toggle like status for the post.
+     * Bascule l'état "like" d'un post pour l'utilisateur courant
      */
     public function like(Post $post)
     {
@@ -238,8 +237,13 @@ class PostsController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Affiche le fil d'actualité avec les posts des utilisateurs suivis et les posts tendances
+     */
     public function home()
     {
+        Gate::authorize('viewAny', Post::class);
+        // Récupère les 10 derniers posts des utilisateurs suivis
         $followedPosts = Post::whereIn('userId', Auth::user()->following->pluck('followingId'))
             ->with(['comments' => function ($query) {
                 $query->with('user', 'replies.user')
@@ -251,6 +255,7 @@ class PostsController extends Controller
             ->take(10)
             ->get();
 
+        // Récupère les posts les plus likés
         $trendingPosts = Post::withCount('postLikes')
             ->with(['comments' => function ($query) {
                 $query->with('user', 'replies.user')
@@ -264,9 +269,11 @@ class PostsController extends Controller
         return view('posts.home', compact('followedPosts', 'trendingPosts'));
     }
 
+    /**
+     * Affiche les posts de l'utilisateur connecté
+     */
     public function myPosts()
     {
-
         Gate::authorize('viewAny', Post::class);
 
         $posts = Post::where('userId', Auth::id())->with(['comments' => function ($query) {
@@ -278,9 +285,11 @@ class PostsController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+    /**
+     * Affiche les posts d'un utilisateur spécifique
+     */
     public function userPosts($user)
     {
-
         Gate::authorize('viewAny', Post::class);
 
         $users = User::where('name', 'like', '%' . $user . '%')->get();
@@ -289,8 +298,13 @@ class PostsController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+    /**
+     * Affiche les posts associés à un tag spécifique
+     */
     public function postsByTag($tag)
     {
+        Gate::authorize('viewAny', Post::class);
+
         $tag = Tag::where('name', strtolower($tag))->firstOrFail();
 
         $posts = Post::whereHas('tags', function ($query) use ($tag) {
@@ -302,6 +316,9 @@ class PostsController extends Controller
         return view('posts.index', compact('posts'));
     }
 
+    /**
+     * Recherche des posts selon différents critères (utilisateurs, tags, contenu)
+     */
     public function search(Request $request)
     {
 
@@ -334,6 +351,8 @@ class PostsController extends Controller
                 ->latest();
         }])->latest()->get();
 
+        // Redirection vers le profil si recherche d'un seul utilisateur
+        // Sinon affiche les résultats de recherche
         if (!$posts->isEmpty() && count($users) === 1 && !$tags && !$content) {
             return redirect()->route('profile.show', ['user' => $userIds->first()]);
         } else {

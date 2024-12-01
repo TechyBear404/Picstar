@@ -8,6 +8,10 @@ use Illuminate\Database\Seeder;
 
 class FollowSeeder extends Seeder
 {
+    /**
+     * Crée des relations de follow aléatoires entre les utilisateurs
+     * @param array $parameters Contient maxFollows: nombre maximum de follows par utilisateur
+     */
     public function run(array $parameters = []): void
     {
         $maxFollows = $parameters['maxFollows'] ?? 10;
@@ -16,7 +20,7 @@ class FollowSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar($users->count());
 
         $users->each(function ($user) use ($users, $bar, $maxFollows) {
-            // Chaque utilisateur suit entre 1 et 5 autres utilisateurs aléatoirement
+            // Sélectionne aléatoirement des utilisateurs à suivre, en excluant l'utilisateur actuel
             $followings = $users->except($user->id)
                 ->random(rand(1, $maxFollows));
 

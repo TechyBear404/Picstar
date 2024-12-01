@@ -24,8 +24,8 @@
                 <span
                     class="flex items-center justify-center gap-2 mt-6 text-5xl font-bold text-purple-400 sm:flex-row">
                     <span>Picstar</span>
-                    <span class="ml-2"><img src="{{ asset('storage/picstar_logo.png') }}" alt="Picstar logo"
-                            class="w-14 h-14"></span>
+                    <picture class="ml-2 w-14 h-14"><img src="{{ asset('storage/picstar_logo.png') }}"
+                            alt="Picstar logo" class=""></picture>
                 </span>
             </a>
         </div>

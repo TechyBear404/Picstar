@@ -13,7 +13,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Affiche le formulaire d'édition du profil utilisateur
      */
     public function edit(Request $request): View
     {
@@ -23,7 +23,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Display the user's profile.
+     * Affiche le profil public d'un utilisateur avec ses posts
      */
     public function show(User $user): View
     {
@@ -38,12 +38,11 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Met à jour les informations du profil utilisateur et gère l'upload d'avatar
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
-
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
@@ -60,7 +59,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * Supprime le compte utilisateur après vérification du mot de passe
      */
     public function destroy(Request $request): RedirectResponse
     {

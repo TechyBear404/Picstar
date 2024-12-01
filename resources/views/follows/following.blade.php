@@ -1,4 +1,5 @@
 <x-app-layout>
+    {{-- En-tête avec le titre et le compteur d'abonnements --}}
     <div class="py-6">
         <div class="container items-center justify-between px-4 mx-auto mb-6 md:flex">
             <h2 class="text-2xl font-bold text-white">Mes abonnements</h2>
@@ -11,14 +12,17 @@
         </div>
 
         <div class="container mx-auto sm:px-4">
+            {{-- Message affiché si aucun abonnement --}}
             @if ($following->isEmpty())
                 <div class="flex flex-col items-center justify-center p-8 mt-8 text-center bg-gray-800 rounded-lg">
                     <x-fas-users class="w-16 h-16 mb-4 text-gray-600" />
                     <h3 class="mb-2 text-xl font-medium text-gray-300">Vous ne suivez personne pour le moment</h3>
                 </div>
             @else
+                {{-- Grille responsive des utilisateurs suivis --}}
                 <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($following as $follow)
+                        {{-- Carte utilisateur avec avatar, stats et bouton suivre --}}
                         <div
                             class="p-4 overflow-hidden transition-colors bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700">
                             <div

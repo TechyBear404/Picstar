@@ -6,8 +6,15 @@ use App\Models\Tag;
 use App\Models\Post;
 use Illuminate\Database\Seeder;
 
+/**
+ * Seeder pour créer des tags et les associer aux posts
+ */
 class TagSeeder extends Seeder
 {
+    /**
+     * Crée des tags prédéfinis et les attache aléatoirement aux posts existants
+     * @param array $parameters Paramètres optionnels (tags: liste personnalisée de tags)
+     */
     public function run(array $parameters = []): void
     {
         $tags = $parameters['tags'] ?? [

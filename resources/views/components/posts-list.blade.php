@@ -1,11 +1,14 @@
 @props(['posts'])
 
+{{-- Container principal de la liste des posts --}}
 <div class="flex flex-col items-center gap-4 ">
     @foreach ($posts as $post)
+        {{-- Carte de post individuelle --}}
         <div class="w-full max-w-3xl p-1 pb-0 ">
             <div
                 class="overflow-hidden transition-transform duration-300 bg-gray-800 shadow-lg rounded-xl hover:-translate-y-1">
-                <!-- Header - always visible -->
+
+                {{-- En-tête du post avec informations utilisateur et options --}}
                 <div class="flex items-center gap-2 p-2 bg-gray-800">
                     <x-avatar :user="$post->user" size="sm" border="sm" />
                     <div class="flex flex-col">
@@ -23,7 +26,7 @@
                     @endif
                 </div>
 
-                <!-- Image container with hover effects -->
+                {{-- Container de l'image avec effets de survol et compteurs --}}
                 <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="relative block group">
                     <img src="{{ asset('storage/' . $post->image) }}" alt="Post image"
                         class="object-cover w-full transition-opacity duration-300 group-hover:opacity-90">
@@ -40,7 +43,7 @@
                     </div>
                 </a>
 
-                <!-- Description - always visible -->
+                {{-- Section description du post --}}
                 <div class="p-2 bg-gray-800">
                     <p class="text-sm text-gray-300 line-clamp-1">
                         {{ $post->content }}

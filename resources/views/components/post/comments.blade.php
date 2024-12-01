@@ -1,8 +1,11 @@
 @props(['comments'])
 
+{{-- Section des commentaires avec système de réponses --}}
 <div class="space-y-4">
     @forelse ($comments as $comment)
+        {{-- Bloc individuel de commentaire --}}
         <div class="p-3 space-y-2 bg-gray-700 rounded-lg">
+            {{-- En-tête: auteur et actions --}}
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <x-avatar :user="$comment->user" size="sm" border="sm" />
@@ -25,8 +28,11 @@
                     </form>
                 </div>
             </div>
+
+            {{-- Contenu du commentaire --}}
             <p class="text-sm text-gray-300">{{ $comment->content }}</p>
 
+            {{-- Actions du commentaire (Répondre, Supprimer) --}}
             <div class="flex items-center gap-2 mt-2">
                 <button onclick="toggleReplyForm('{{ $comment->id }}')"
                     class="text-xs text-purple-400 hover:text-purple-500">
@@ -43,6 +49,7 @@
                 @endif
             </div>
 
+            {{-- Formulaire de réponse caché --}}
             <form id="replyForm{{ $comment->id }}" action="{{ route('comments.reply', $comment) }}" method="POST"
                 class="hidden mt-2">
                 @csrf
@@ -58,7 +65,7 @@
                 </div>
             </form>
 
-            {{-- Display replies using the relationship --}}
+            {{-- Système de réponses imbriquées --}}
             @foreach ($comment->replies as $reply)
                 <div class="p-2 mt-2 ml-4 space-y-1 bg-gray-800 rounded-lg">
                     <div class="flex items-center justify-between">
@@ -76,10 +83,12 @@
             @endforeach
         </div>
     @empty
+        {{-- Message d'absence de commentaires --}}
         <p class="text-sm text-gray-400">Aucun commentaire pour le moment</p>
     @endforelse
 </div>
 
+{{-- Script JavaScript pour gérer l'affichage/masquage du formulaire de réponse --}}
 <script>
     function toggleReplyForm(commentId) {
         const form = document.getElementById(`replyForm${commentId}`);

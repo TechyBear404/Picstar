@@ -1,11 +1,15 @@
 <x-app-layout>
+    {{-- Section principale pour la modification d'un post --}}
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-4 lg:px-0">
             <div class="overflow-hidden bg-gray-800 shadow-lg rounded-xl">
                 <div class="p-6 border-b border-gray-700">
+                    {{-- Formulaire de mise à jour avec gestion des fichiers --}}
                     <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
+
+                        {{-- Section de prévisualisation et upload d'image --}}
                         <div class="mb-6">
                             <div class="mt-4">
                                 <img id="preview" class="max-w-sm mx-auto rounded-lg shadow-2xl"
@@ -28,6 +32,7 @@
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
                         </div>
 
+                        {{-- Section description avec support emoji --}}
                         <div class="mb-6">
                             <x-input-label for="description" value="Légende" />
                             <div class="relative flex items-start gap-2">
@@ -38,6 +43,7 @@
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
                         </div>
 
+                        {{-- Section gestion des collaborateurs --}}
                         <div class="mb-6">
                             <x-input-label for="colabs" value="Collaborateurs" />
                             <x-text-input id="colabs" name="colabs" type="text"
@@ -46,6 +52,7 @@
                             <x-input-error :messages="$errors->get('colabs')" class="mt-2" />
                         </div>
 
+                        {{-- Section gestion des tags --}}
                         <div class="mb-6">
                             <x-input-label for="tags" value="Tags" />
                             <x-text-input id="tags" name="tags" type="text" placeholder="#photo #art"
@@ -53,6 +60,7 @@
                             <x-input-error :messages="$errors->get('tags')" class="mt-2" />
                         </div>
 
+                        {{-- Bouton de soumission --}}
                         <div class="flex items-center justify-end">
                             <x-primary-button>
                                 Mettre à jour
@@ -65,6 +73,7 @@
     </div>
 </x-app-layout>
 
+{{-- Script de prévisualisation d'image --}}
 <script>
     function previewImage(input) {
         const preview = document.getElementById('preview');

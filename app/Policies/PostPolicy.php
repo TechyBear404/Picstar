@@ -13,9 +13,10 @@ class PostPolicy
 {
     use HandlesAuthorization;
 
-    // /**
-    //  * Determine whether the user can view any models.
-    //  */
+    /**
+     * Vérifie si l'utilisateur peut voir la liste de tous les posts
+     * Autorise si l'utilisateur est connecté
+     */
     public function viewAny(User $user): Response
     {
         return $user !== null
@@ -24,7 +25,8 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Vérifie si l'utilisateur peut voir un post spécifique
+     * Autorise si l'utilisateur est connecté
      */
     public function view(User $user): Response
     {
@@ -35,7 +37,8 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Vérifie si l'utilisateur peut créer un nouveau post
+     * Autorise si l'utilisateur est connecté
      */
     public function create(User $user): Response
     {
@@ -45,7 +48,8 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Vérifie si l'utilisateur peut modifier un post
+     * Autorise uniquement si l'utilisateur est le propriétaire du post
      */
     public function update(User $user, Post $post): Response
     {
@@ -55,7 +59,8 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Vérifie si l'utilisateur peut supprimer un post
+     * Autorise uniquement si l'utilisateur est le propriétaire du post
      */
     public function delete(User $user, Post $post): Response
     {
@@ -63,20 +68,4 @@ class PostPolicy
             ? Response::allow()
             : Response::deny('Vous n\'êtes pas autorisé à supprimer ce post.');
     }
-
-    // /**
-    //  * Determine whether the user can restore the model.
-    //  */
-    // public function restore(User $user, Posts $posts): bool
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Determine whether the user can permanently delete the model.
-    //  */
-    // public function forceDelete(User $user, Posts $posts): bool
-    // {
-    //     //
-    // }
 }

@@ -6,9 +6,16 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
+    /**
+     * Parse la requête de recherche et sépare les termes (@users, #tags, contenu)
+     * Redirige vers la recherche de posts avec les paramètres filtrés
+     */
     public function index(Request $request)
     {
-        $query = $request->input('q');
+        $validatedData = $request->validate([
+            'q' => 'required|string|max:255'
+        ]);
+        $query = $validatedData['q'];
         $terms = preg_split('/\s+/', trim($query));
 
         $users = [];

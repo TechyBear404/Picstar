@@ -1,5 +1,6 @@
 @props(['posts'])
 
+{{-- Configuration de la grille masonry avec gestion du chargement des images --}}
 <div class="grid-masonry" x-init="() => {
     const grid = $el;
     const masonry = new Masonry(grid, {
@@ -15,10 +16,12 @@
     });
 }">
     @foreach ($posts as $post)
+        {{-- Carte de post avec mise en page responsive --}}
         <div class="w-full p-1 pb-1 grid-masonry-item sm:w-1/2 lg:w-1/3">
             <div
                 class="overflow-hidden transition-transform duration-300 bg-gray-800 shadow-lg rounded-xl hover:-translate-y-1">
 
+                {{-- En-tête du post avec avatar et informations utilisateur --}}
                 <div class="flex items-center gap-2 p-2 bg-gray-800">
                     <x-avatar :user="$post->user" size="sm" border="sm" />
                     <div class="flex flex-col">
@@ -37,7 +40,7 @@
                     @endif
                 </div>
 
-                <!-- Image container with hover effects -->
+                {{-- Container de l'image avec effets de survol et actions --}}
                 <a href="{{ route('posts.show', ['post' => $post->id]) }}" class="relative block group">
                     <img src="{{ asset('storage/' . $post->image) }}" alt="Post image"
                         class="object-cover w-full transition-opacity duration-300 group-hover:opacity-90">
@@ -54,6 +57,7 @@
                     </div>
                 </a>
 
+                {{-- Contenu textuel du post --}}
                 <div class="p-2 bg-gray-800">
                     <p class="text-sm text-gray-300 line-clamp-1">
                         {{ $post->content }}

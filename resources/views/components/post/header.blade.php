@@ -1,6 +1,8 @@
 @props(['post'])
 
+{{-- En-tête du post avec informations utilisateur et actions --}}
 <div class="flex items-center justify-between p-4 border-b border-gray-700">
+    {{-- Informations de l'auteur avec avatar --}}
     <div class="flex flex-row items-center gap-3 mr-2">
         <x-avatar :user="$post->user" size="md" border="sm" />
         <div>
@@ -11,6 +13,7 @@
             <span class="text-sm text-gray-400">{{ $post->created_at->locale('fr')->diffForHumans() }}</span>
         </div>
     </div>
+    {{-- Actions conditionnelles (modifier/suivre) --}}
     @if (Auth::id() === $post->userId)
         <div>
             <a href="{{ route('posts.edit', $post) }}"

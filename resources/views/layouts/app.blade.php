@@ -34,6 +34,7 @@
             </header>
         @endisset
 
+        <!-- Search bar -->
         <x-search />
 
         <main class="flex-1 p-4 overflow-auto">

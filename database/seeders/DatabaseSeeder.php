@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * Configuration globale pour tous les seeders
+     * Définit les limites et valeurs par défaut
+     * Ne fonctionne pas pour le moment
+     */
     protected array $config = [
         'users' => 50,
         'maxFollowsPerUser' => 10,
@@ -28,6 +33,9 @@ class DatabaseSeeder extends Seeder
         ]
     ];
 
+    /**
+     * Nettoie le répertoire de stockage des images
+     */
     protected function cleanImageStorage(): void
     {
         $this->command->info('🧹 Cleaning image storage...');
@@ -36,6 +44,10 @@ class DatabaseSeeder extends Seeder
         $this->command->info('✅ Image storage cleaned!');
     }
 
+    /**
+     * Exécute tous les seeders dans un ordre spécifique
+     * Initialise la base de données avec des données de test
+     */
     public function run(): void
     {
         $this->cleanImageStorage();

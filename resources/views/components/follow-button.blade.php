@@ -1,5 +1,7 @@
+{{-- Composant de bouton suivre/ne plus suivre avec gestion d'état --}}
 @props(['user', 'showUnfollow' => false])
 
+{{-- Condition d'affichage du bouton unfollow --}}
 @if (Auth::user()->isFollowing($user) || $showUnfollow)
     <form action="{{ route('follow.destroy', $user) }}" method="POST">
         @csrf
@@ -9,6 +11,7 @@
             Ne plus suivre
         </button>
     </form>
+    {{-- Condition d'affichage du bouton follow --}}
 @else
     <form action="{{ route('follow.store', $user) }}" method="POST">
         @csrf

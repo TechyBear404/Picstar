@@ -1,6 +1,7 @@
 <x-app-layout>
+    {{-- Conteneur principal avec padding responsive --}}
     <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        {{-- Profile Header --}}
+        {{-- Section en-tête du profil: photo, nom, bio et statistiques --}}
         <div class="max-w-3xl p-6 mx-auto mb-6 bg-gray-800 rounded-lg shadow-lg">
             <div class="flex items-center space-x-6">
                 <x-avatar :user="$user" size="xl" border="md" />
@@ -39,36 +40,12 @@
             </div>
         </div>
 
-        {{-- Posts Grid --}}
-        {{-- <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            @foreach ($posts as $post)
-                <div class="overflow-hidden bg-gray-800 rounded-lg shadow-lg">
-                    <a href="{{ route('posts.show', $post) }}" class="block">
-                        <div class="relative group">
-                            <img src="{{ asset('storage/' . $post->image) }}" alt="Post by {{ $user->name }}"
-                                class="object-cover w-full h-64 transition-opacity duration-300 group-hover:opacity-75">
-
-                            <div
-                                class="absolute inset-0 flex items-center justify-center space-x-6 transition-opacity duration-300 opacity-0 bg-black/60 group-hover:opacity-100">
-                                <span class="flex items-center text-white">
-                                    <x-fas-heart class="w-5 h-5 mr-2" />
-                                    {{ $post->likes()->count() }}
-                                </span>
-                                <span class="flex items-center text-white">
-                                    <x-fas-comment class="w-5 h-5 mr-2" />
-                                    {{ $post->comments->count() }}
-                                </span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
-        </div> --}}
+        {{-- Grille des posts de l'utilisateur avec effet hover et compteurs --}}
         <x-posts-list :posts="$posts" />
 
-        {{-- Pagination --}}
-        <div class="mt-6">
+        {{-- Navigation pagination des posts --}}
+        {{-- <div class="mt-6">
             {{ $posts->links() }}
-        </div>
+        </div> --}}
     </div>
 </x-app-layout>
