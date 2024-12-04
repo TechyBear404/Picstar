@@ -321,27 +321,27 @@ class PostsController extends Controller
      */
     public function search(Request $request)
     {
-
         Gate::authorize('viewAny', Post::class);
 
         $query = Post::query();
 
         $users = $request->input('users');
-
+        $tags = $request->input('tags');
+        $content = $request->input('content');
 
         if ($users) {
-            $userIds = User::whereIn('name', $users)
-                ->pluck('id');
-            $query->whereIn('userId', $userIds);
+            $query->whereHas('user', function ($q) use ($users) {
+                $q->whereIn('name', $users);
+            });
         }
 
-        if ($tags = $request->input('tags')) {
+        if ($tags) {
             $query->whereHas('tags', function ($q) use ($tags) {
                 $q->whereIn('name', $tags);
             });
         }
 
-        if ($content = $request->input('content')) {
+        if ($content) {
             $query->where('content', 'like', '%' . $content . '%');
         }
 
@@ -353,8 +353,8 @@ class PostsController extends Controller
 
         // Redirection vers le profil si recherche d'un seul utilisateur
         // Sinon affiche les résultats de recherche
-        if (!$posts->isEmpty() && count($users) === 1 && !$tags && !$content) {
-            return redirect()->route('profile.show', ['user' => $userIds->first()]);
+        if (!$posts->isEmpty() && $users && count($users) === 1 && !$tags && !$content) {
+            return redirect()->route('profile.show', ['user' => $posts->first()->user]);
         } else {
             return view('posts.index', compact('posts'));
         }
